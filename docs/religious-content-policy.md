@@ -42,3 +42,16 @@ Until mappings are manually reviewed, this feature should stay hidden or marked 
 
 Any new religious content source must be approved before implementation.
 
+## API Access Guardrails
+
+Quran Foundation / Quran.com remains the preferred Quran source only if access is free or explicitly approved for this project.
+
+If Quran Foundation credentials are required, secrets must stay server-side. Flutter/mobile code must never contain a Quran Foundation `client_secret`.
+
+Until approved credentials are available, implementation tasks must use repository interfaces and mock/local sample datasources only. Production Quran, tafsir, translation, or recitation API calls must wait for source approval and credential handling.
+
+Prayer times may use AlAdhan according to `docs/api-sources.md`.
+
+Adhkar must remain local JSON from a trusted source with source metadata.
+
+Adhan audio must be a bundled short local audio file, not generated religious content.
