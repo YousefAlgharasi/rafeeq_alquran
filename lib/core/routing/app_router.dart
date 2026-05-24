@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 
 import '../../features/adhkar/ui/pages/adhkar_page.dart';
+import '../../features/auth/ui/pages/login_page.dart';
+import '../../features/auth/ui/pages/profile_page.dart';
 import '../../features/daily_ayah/ui/pages/daily_ayah_page.dart';
 import '../../features/favorites/ui/pages/favorites_page.dart';
 import '../../features/home/ui/pages/home_page.dart';
@@ -45,6 +47,14 @@ final appRouter = GoRouter(
         GoRoute(
           path: AppRouteDestination.settings.path,
           builder: (context, state) => const SettingsPage(),
+        ),
+        GoRoute(
+          path: '/login',
+          builder: (context, state) => const LoginPage(),
+        ),
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => const ProfilePage(),
         ),
       ],
     ),

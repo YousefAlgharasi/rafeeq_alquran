@@ -48,13 +48,67 @@ class AppLocalizations {
 
   String get settings => _text(ar: 'الإعدادات', en: 'Settings');
 
-  String get placeholderBody => _text(
-    ar: 'هذه صفحة تمهيدية. سيتم تنفيذ الميزة في مهمة لاحقة.',
-    en: 'This is a placeholder page. The feature will be implemented in a later task.',
-  );
+  String get login => _text(ar: 'تسجيل الدخول', en: 'Login');
 
-  String get scaffoldReady =>
-      _text(ar: 'الواجهة الأساسية جاهزة', en: 'App shell is ready');
+  String get profile => _text(ar: 'الملف الشخصي', en: 'Profile');
+
+  String get logout => _text(ar: 'تسجيل الخروج', en: 'Logout');
+
+  String get continueAsGuest {
+    return _text(ar: 'المتابعة كضيف', en: 'Continue as guest');
+  }
+
+  String get guestMode => _text(ar: 'وضع الضيف', en: 'Guest mode');
+
+  String get loggedIn => _text(ar: 'تم تسجيل الدخول', en: 'Logged in');
+
+  String get email => _text(ar: 'البريد الإلكتروني', en: 'Email');
+
+  String get password => _text(ar: 'كلمة المرور', en: 'Password');
+
+  String get account => _text(ar: 'الحساب', en: 'Account');
+
+  String get openProfile => _text(ar: 'فتح الملف الشخصي', en: 'Open profile');
+
+  String get loginOptionalMessage {
+    return _text(
+      ar: 'يمكنك استخدام التطبيق كضيف. ستبقى بيانات الضيف محفوظة محلياً فقط.',
+      en: 'You can use the app as a guest. Guest data stays local-only.',
+    );
+  }
+
+  String get firebaseNotConfiguredMessage {
+    return _text(
+      ar: 'لم يتم إعداد Firebase بعد. وضع الضيف متاح الآن.',
+      en: 'Firebase is not configured yet. Guest mode is available now.',
+    );
+  }
+
+  String get syncLaterMessage {
+    return _text(
+      ar: 'مزامنة بيانات الحساب ستنفذ في مهمة لاحقة.',
+      en: 'Account data sync will be implemented in a later task.',
+    );
+  }
+
+  String get placeholderBody {
+    return _text(
+      ar: 'هذه صفحة تمهيدية. سيتم تنفيذ الميزة في مهمة لاحقة.',
+      en: 'This is a placeholder page. The feature will be implemented in a later task.',
+    );
+  }
+
+  String get scaffoldReady {
+    return _text(ar: 'الواجهة الأساسية جاهزة', en: 'App shell is ready');
+  }
+
+  String get requiredField {
+    return _text(ar: 'هذا الحقل مطلوب', en: 'This field is required');
+  }
+
+  String get invalidEmail {
+    return _text(ar: 'أدخل بريداً إلكترونياً صحيحاً', en: 'Enter a valid email');
+  }
 
   String _text({required String ar, required String en}) {
     return isArabic ? ar : en;
