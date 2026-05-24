@@ -8,6 +8,7 @@ import '../../features/favorites/ui/pages/favorites_page.dart';
 import '../../features/home/ui/pages/home_page.dart';
 import '../../features/prayer_times/ui/pages/prayer_times_page.dart';
 import '../../features/quran_content/ui/pages/quran_page.dart';
+import '../../features/quran_content/ui/pages/surah_reading_page.dart';
 import '../../features/settings/ui/pages/settings_page.dart';
 import 'app_routes.dart';
 import 'app_shell.dart';
@@ -27,6 +28,16 @@ final appRouter = GoRouter(
         GoRoute(
           path: AppRouteDestination.quran.path,
           builder: (context, state) => const QuranPage(),
+        ),
+        GoRoute(
+          path: '/quran/chapter/:chapterNumber',
+          builder: (context, state) {
+            final chapterNumber = int.tryParse(
+                  state.pathParameters['chapterNumber'] ?? '',
+                ) ??
+                1;
+            return SurahReadingPage(chapterNumber: chapterNumber);
+          },
         ),
         GoRoute(
           path: AppRouteDestination.dailyAyah.path,

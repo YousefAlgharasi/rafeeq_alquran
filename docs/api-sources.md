@@ -6,6 +6,35 @@ Verified on: 2026-05-24.
 
 This task documents the API strategy only. It does not implement feature code.
 
+## T-08 Quran Proxy Status
+
+Status: **Path B - blocked/mocked structure**.
+
+Reason:
+
+- Quran Foundation credentials are not available in this repo.
+- Project owner approval for production Quran Foundation access is not documented yet.
+- No `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, or `QF_ENV` values are configured.
+
+Implementation decision:
+
+- Do not implement Firebase Cloud Functions proxy yet.
+- Do not implement production Quran Foundation API calls.
+- Do not place Quran Foundation secrets in Flutter/mobile code.
+- Use repository and datasource interfaces for future Quran content work.
+- Current Flutter datasource intentionally throws a clear blocked-access exception until approved credentials and a server-side proxy are configured.
+- No local sample Quran, tafsir, translation, or recitation data was added in this task.
+
+Future Path A requirements:
+
+- Create a backend proxy, preferably Firebase Cloud Functions.
+- Read `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, and `QF_ENV` only from secure backend environment/secrets.
+- Implement server-side OAuth2 client credentials token retrieval.
+- Cache the access token server-side until expiry.
+- Add proxy endpoints for chapters, verses by chapter/page/juz, tafsir by ayah/resource, and audio/recitation metadata.
+- Return only the fields the Flutter app needs.
+- Add token/cache tests on the backend implementation.
+
 ## Decision Table
 
 | Area | Source | Current status | Credential status | Implementation decision |
@@ -51,6 +80,29 @@ Content integrity requirements:
 - Do not generate Quran, tafsir, translations, adhkar, duas, or religious explanations with AI.
 - Preserve source metadata where practical.
 - Do not auto-translate verified Quran translations or tafsir content.
+## Quran.Foundation Access Status
+
+Pre-production/test access:
+- Client ID received.
+- Client secret received.
+- Endpoint received.
+- Limited data, all features enabled for testing.
+
+Production/live access:
+- Client ID received.
+- Client secret received.
+- Endpoint received.
+- Full Quranic content available.
+- Quran.Foundation authentication/user features are not enabled by default.
+
+Current app decision:
+- The app uses Firebase Auth for user accounts.
+- Quran.Foundation is used only for Quranic content.
+- Quran.Foundation credentials must never be stored in Flutter.
+- Quran.Foundation credentials must never be committed to Git.
+- All Quran.Foundation API calls must go through Firebase Cloud Functions or backend proxy.
+- Development should use pre-production credentials first.
+- Production credentials should be used only after testing and before release.
 
 ## Quran Fallback Strategy
 

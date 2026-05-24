@@ -1,0 +1,23 @@
+{
+  "name": "rafeeq-alquran-functions",
+  "private": true,
+  "engines": {
+    "node": "20"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "deploy": "npm run build && firebase deploy --only functions",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "express": "^4.18.3",
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "typescript": "^5.4.5"
+  }
+}

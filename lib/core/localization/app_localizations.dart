@@ -38,6 +38,8 @@ class AppLocalizations {
 
   String get quran => _text(ar: 'القرآن', en: 'Quran');
 
+  String get tafsir => _text(ar: 'التفسير', en: 'Tafsir');
+
   String get dailyAyah => _text(ar: 'آية اليوم', en: 'Daily Ayah');
 
   String get adhkar => _text(ar: 'الأذكار', en: 'Adhkar');
@@ -69,6 +71,47 @@ class AppLocalizations {
   String get account => _text(ar: 'الحساب', en: 'Account');
 
   String get openProfile => _text(ar: 'فتح الملف الشخصي', en: 'Open profile');
+
+  String get surahs => _text(ar: 'السور', en: 'Surahs');
+
+  String get verses => _text(ar: 'آيات', en: 'verses');
+
+  String get continueReading =>
+      _text(ar: 'متابعة القراءة', en: 'Continue reading');
+
+  String get noCachedQuran => _text(
+        ar: 'لا توجد بيانات قرآن مخزنة بعد. شغّل خادم القرآن ثم أعد المحاولة.',
+        en: 'No cached Quran content yet. Start the Quran proxy, then try again.',
+      );
+
+  String get comingSoon => _text(ar: 'قريباً', en: 'Coming soon');
+
+  String get tafsirUnavailable {
+    return _text(
+      ar: 'التفسير الميسر غير متاح الآن من المصدر المعتمد.',
+      en: 'Al-Muyassar is not available right now from the approved source.',
+    );
+  }
+
+  String get tafsirLevelUnavailable {
+    return _text(
+      ar: 'هذا المستوى غير متاح حتى يتم اعتماد مصدر موثوق له.',
+      en: 'This level is unavailable until a verified source is approved.',
+    );
+  }
+
+  String get tafsirOpenFromAyah {
+    return _text(
+      ar: 'افتح التفسير من داخل صفحة قراءة السورة عند كل آية.',
+      en: 'Open tafsir from each ayah inside the surah reading page.',
+    );
+  }
+
+  String get retry => _text(ar: 'إعادة المحاولة', en: 'Retry');
+
+  String get lastRead => _text(ar: 'آخر قراءة', en: 'Last read');
+
+  String get saved => _text(ar: 'تم الحفظ', en: 'Saved');
 
   String get loginOptionalMessage {
     return _text(

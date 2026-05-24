@@ -33,6 +33,14 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Local environment/secrets
+.env
+.env.*
+!.env.example
+functions/.env
+functions/.env.*
+!functions/.env.example
+
 # Symbolication related
 app.*.symbols
 
