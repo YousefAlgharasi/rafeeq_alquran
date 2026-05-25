@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 
+import '../../features/adhkar/ui/pages/adhkar_list_page.dart';
 import '../../features/adhkar/ui/pages/adhkar_page.dart';
 import '../../features/auth/ui/pages/login_page.dart';
 import '../../features/auth/ui/pages/profile_page.dart';
@@ -32,10 +33,8 @@ final appRouter = GoRouter(
         GoRoute(
           path: '/quran/chapter/:chapterNumber',
           builder: (context, state) {
-            final chapterNumber = int.tryParse(
-                  state.pathParameters['chapterNumber'] ?? '',
-                ) ??
-                1;
+            final chapterNumber =
+                int.tryParse(state.pathParameters['chapterNumber'] ?? '') ?? 1;
             return SurahReadingPage(chapterNumber: chapterNumber);
           },
         ),
@@ -46,6 +45,14 @@ final appRouter = GoRouter(
         GoRoute(
           path: AppRouteDestination.adhkar.path,
           builder: (context, state) => const AdhkarPage(),
+        ),
+        GoRoute(
+          path: '/adhkar/:categoryKey',
+          builder: (context, state) {
+            return AdhkarListPage(
+              categoryKey: state.pathParameters['categoryKey'] ?? '',
+            );
+          },
         ),
         GoRoute(
           path: AppRouteDestination.prayerTimes.path,
@@ -59,10 +66,7 @@ final appRouter = GoRouter(
           path: AppRouteDestination.settings.path,
           builder: (context, state) => const SettingsPage(),
         ),
-        GoRoute(
-          path: '/login',
-          builder: (context, state) => const LoginPage(),
-        ),
+        GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
         GoRoute(
           path: '/profile',
           builder: (context, state) => const ProfilePage(),

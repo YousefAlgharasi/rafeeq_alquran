@@ -66,6 +66,27 @@ class FirebaseAuthDatasource {
     }
   }
 
+  Future<AuthUserModel> createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = credential.user;
+      if (user == null) {
+        throw const AuthFailure('Firebase did not return a created user.');
+      }
+
+      return AuthUserModel.fromFirebaseUser(user);
+    } on firebase_auth.FirebaseAuthException catch (error) {
+      throw AuthFailure(error.message ?? error.code);
+    }
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
   }

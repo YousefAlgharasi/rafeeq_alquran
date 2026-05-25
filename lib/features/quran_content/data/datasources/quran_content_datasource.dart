@@ -2,6 +2,7 @@ import '../../logic/entity/quran_audio_metadata.dart';
 import '../../logic/entity/quran_chapter.dart';
 import '../../logic/entity/quran_tafsir.dart';
 import '../../logic/entity/quran_verse.dart';
+import '../../logic/entity/reciter.dart';
 
 abstract class QuranContentRemoteDatasource {
   Future<List<QuranChapter>> getChapters();
@@ -16,6 +17,8 @@ abstract class QuranContentRemoteDatasource {
     required String verseKey,
     required String resourceId,
   });
+
+  Future<List<Reciter>> getReciters();
 
   Future<List<QuranAudioMetadata>> getRecitationMetadata({
     required String reciterId,

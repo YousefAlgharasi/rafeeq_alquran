@@ -14,7 +14,8 @@ class TafsirApiResourceModel extends TafsirResource {
 
   factory TafsirApiResourceModel.fromJson(Map<String, Object?> json) {
     final id = _string(json['id'] ?? json['resource_id']) ?? '';
-    final name = _string(
+    final name =
+        _string(
           json['name'] ??
               json['resource_name'] ??
               json['translated_name'] ??
@@ -28,8 +29,9 @@ class TafsirApiResourceModel extends TafsirResource {
       level: _isAlMuyassarName(name)
           ? TafsirLevel.alMuyassar
           : TafsirLevel.full,
-      isAvailable: id.isNotEmpty && _isAlMuyassarName(name),
-      source: quranFoundationSource,
+      isAvailable:
+          id.isNotEmpty && (_isAlMuyassarName(name) || _isIbnKathirName(name)),
+      source: islamicAppSource,
     );
   }
 }
@@ -51,7 +53,9 @@ class TafsirApiEntryModel extends TafsirEntry {
     required TafsirResource resource,
   }) {
     final tafsir = json['tafsir'];
-    final tafsirJson = tafsir is Map<String, Object?> ? tafsir : json;
+    final tafsirJson = tafsir is Map<String, Object?>
+        ? tafsir
+        : _firstObject(json['tafsirs']) ?? json;
 
     return TafsirApiEntryModel(
       verseKey: verseKey,
@@ -60,14 +64,23 @@ class TafsirApiEntryModel extends TafsirEntry {
       level: resource.level,
       languageCode: _string(tafsirJson['language_name']) ?? 'ar',
       text: _stripHtml(_string(tafsirJson['text']) ?? ''),
-      source: quranFoundationSource,
+      source: _string(tafsirJson['resource_name']) ?? islamicAppSource,
     );
   }
 }
 
 List<Map<String, Object?>> readTafsirResourceList(Object? response) {
-  final data = response is Map<String, Object?> ? response : <String, Object?>{};
-  final value = data['tafsirs'] ?? data['resources'] ?? data['data'];
+  final data = response is Map<String, Object?>
+      ? response
+      : <String, Object?>{};
+  final nestedData = data['data'];
+  final value =
+      data['tafsirs'] ??
+      data['resources'] ??
+      (nestedData is Map
+          ? nestedData['tafsirs'] ?? nestedData['resources']
+          : null) ??
+      data['data'];
   if (value is List) {
     return value.whereType<Map>().map((item) {
       return item.cast<String, Object?>();
@@ -77,11 +90,26 @@ List<Map<String, Object?>> readTafsirResourceList(Object? response) {
   return const [];
 }
 
+Map<String, Object?>? _firstObject(Object? value) {
+  if (value is List && value.isNotEmpty) {
+    final first = value.first;
+    if (first is Map) {
+      return first.cast<String, Object?>();
+    }
+  }
+  return null;
+}
+
 bool _isAlMuyassarName(String name) {
   final normalized = name.toLowerCase().replaceAll(RegExp(r'[\s\-_]'), '');
   return normalized.contains('muyassar') ||
       normalized.contains('الميسر') ||
       normalized.contains('almuyassar');
+}
+
+bool _isIbnKathirName(String name) {
+  final normalized = name.toLowerCase().replaceAll(RegExp(r'[\s\-_]'), '');
+  return normalized.contains('ibnkathir') || normalized.contains('ابنكثير');
 }
 
 String _stripHtml(String value) {

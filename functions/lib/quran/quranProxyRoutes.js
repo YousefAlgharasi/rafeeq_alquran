@@ -23,6 +23,9 @@ exports.quranProxyRoutes.get("/tafsir/:resourceId/:ayahKey", async (request, res
 exports.quranProxyRoutes.get("/tafsir-resources", async (request, response) => {
     await handleProxy(response, () => client().getTafsirResources(queryFrom(request)));
 });
+exports.quranProxyRoutes.get("/audio/reciters", async (request, response) => {
+    await handleProxy(response, () => client().getReciters(queryFrom(request)));
+});
 exports.quranProxyRoutes.get("/audio/recitations/:reciterId", async (request, response) => {
     await handleProxy(response, () => client().getRecitationMetadata(request.params.reciterId, queryFrom(request)));
 });

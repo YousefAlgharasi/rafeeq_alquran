@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/localization/app_localizations.dart';
+import '../../../favorites/logic/entity/favorite_type.dart';
+import '../../../favorites/ui/widgets/favorite_button.dart';
 import '../../logic/entity/tafsir_level.dart';
 import '../../logic/provider/tafsir_provider.dart';
 import 'tafsir_level_selector.dart';
 
 class AyahTafsirPanel extends ConsumerStatefulWidget {
-  const AyahTafsirPanel({
-    required this.verseKey,
-    super.key,
-  });
+  const AyahTafsirPanel({required this.verseKey, super.key});
 
   final String verseKey;
 
@@ -32,6 +31,18 @@ class _AyahTafsirPanelState extends ConsumerState<AyahTafsirPanel> {
       tilePadding: EdgeInsets.zero,
       childrenPadding: const EdgeInsets.only(top: 8),
       title: Text(localizations.tafsir),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FavoriteButton(
+            type: FavoriteType.tafsir,
+            itemKey: widget.verseKey,
+            label: widget.verseKey,
+            compact: true,
+          ),
+          const Icon(Icons.expand_more),
+        ],
+      ),
       children: [
         resources.when(
           data: (items) => TafsirLevelSelector(

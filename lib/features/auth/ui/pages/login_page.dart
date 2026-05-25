@@ -20,6 +20,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _passwordController = TextEditingController();
 
   bool _isSubmitting = false;
+  bool _isCreatingAccount = false;
   String? _errorMessage;
 
   @override
@@ -57,7 +58,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          localizations.login,
+                          _isCreatingAccount
+                              ? localizations.createAccount
+                              : localizations.login,
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         const SizedBox(height: 8),
@@ -127,7 +130,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     strokeWidth: 2,
                                   ),
                                 )
-                              : Text(localizations.login),
+                              : Text(
+                                  _isCreatingAccount
+                                      ? localizations.createAccount
+                                      : localizations.login,
+                                ),
+                        ),
+                        TextButton(
+                          onPressed: _isSubmitting
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _isCreatingAccount = !_isCreatingAccount;
+                                    _errorMessage = null;
+                                  });
+                                },
+                          child: Text(
+                            _isCreatingAccount
+                                ? localizations.useExistingAccount
+                                : localizations.useNewAccount,
+                          ),
                         ),
                         TextButton(
                           onPressed: () => context.go('/'),
@@ -156,10 +178,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
 
     try {
-      await ref.read(authRepositoryProvider).signInWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text,
-          );
+      final repository = ref.read(authRepositoryProvider);
+      if (_isCreatingAccount) {
+        await repository.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
+      } else {
+        await repository.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
+      }
 
       if (mounted) {
         context.go('/profile');

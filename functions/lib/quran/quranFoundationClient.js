@@ -27,6 +27,9 @@ class QuranFoundationClient {
     async getTafsirResources(query = {}) {
         return this.getJson("/resources/tafsirs", query);
     }
+    async getReciters(query = {}) {
+        return this.getJson("/resources/recitations", query);
+    }
     async getRecitationMetadata(reciterId, query = {}) {
         return this.getJson(`/recitations/${reciterId}`, query);
     }

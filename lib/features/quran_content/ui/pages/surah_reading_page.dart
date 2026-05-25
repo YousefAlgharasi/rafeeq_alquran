@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/responsive/responsive_breakpoints.dart';
+import '../../../reading_tracker/logic/entity/reading_session.dart';
+import '../../../reading_tracker/logic/provider/reading_tracker_provider.dart';
 import '../../logic/entity/reading_position.dart';
 import '../../logic/provider/quran_content_provider.dart';
 import '../widgets/ayah_card.dart';
@@ -65,6 +67,20 @@ class SurahReadingPage extends ConsumerWidget {
                                     chapterNumber: verse.chapterNumber,
                                     verseNumber: verse.verseNumber,
                                     lastReadAt: DateTime.now().toUtc(),
+                                  ),
+                                );
+                            ref
+                                .read(readingTrackerRepositoryProvider)
+                                .recordSession(
+                                  ReadingSession(
+                                    sessionDate: DateTime.now(),
+                                    startedAt: DateTime.now().toUtc(),
+                                    endedAt: DateTime.now().toUtc(),
+                                    ayahCount: 1,
+                                    pageCount: verse.verseNumber == 1 ? 1 : 0,
+                                    durationMinutes: 1,
+                                    startVerseKey: verse.verseKey,
+                                    endVerseKey: verse.verseKey,
                                   ),
                                 );
                           },

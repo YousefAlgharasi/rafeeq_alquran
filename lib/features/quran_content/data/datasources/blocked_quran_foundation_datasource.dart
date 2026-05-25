@@ -2,6 +2,7 @@ import '../../logic/entity/quran_audio_metadata.dart';
 import '../../logic/entity/quran_chapter.dart';
 import '../../logic/entity/quran_tafsir.dart';
 import '../../logic/entity/quran_verse.dart';
+import '../../logic/entity/reciter.dart';
 import 'quran_content_datasource.dart';
 
 class QuranFoundationAccessBlockedException implements Exception {
@@ -44,6 +45,11 @@ class BlockedQuranFoundationDatasource implements QuranContentRemoteDatasource {
     required String verseKey,
     required String resourceId,
   }) async {
+    return _blocked();
+  }
+
+  @override
+  Future<List<Reciter>> getReciters() async {
     return _blocked();
   }
 

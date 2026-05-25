@@ -9,18 +9,31 @@ class TafsirRepositoryImpl implements TafsirRepository {
   const TafsirRepositoryImpl({
     required TafsirRemoteDatasource remoteDatasource,
     required TafsirLocalDatasource localDatasource,
-  })  : _remoteDatasource = remoteDatasource,
-        _localDatasource = localDatasource;
+  }) : _remoteDatasource = remoteDatasource,
+       _localDatasource = localDatasource;
 
   final TafsirRemoteDatasource _remoteDatasource;
   final TafsirLocalDatasource _localDatasource;
 
   @override
   Future<List<TafsirResource>> getResources() async {
-    final remote = await _remoteDatasource.getResources();
-    final alMuyassar = remote
-        .where((resource) => resource.level == TafsirLevel.alMuyassar)
-        .toList();
+    var alMuyassar = const <TafsirResource>[];
+    try {
+      final remote = await _remoteDatasource.getResources();
+      alMuyassar = remote
+          .where((resource) => resource.level == TafsirLevel.alMuyassar)
+          .toList();
+    } catch (_) {
+      alMuyassar = const [
+        TafsirResource(
+          id: 'cached-al-muyassar',
+          name: 'Al-Muyassar',
+          level: TafsirLevel.alMuyassar,
+          isAvailable: true,
+          source: 'Local cache',
+        ),
+      ];
+    }
 
     return [
       ...unavailableTafsirResources.where(
@@ -38,7 +51,20 @@ class TafsirRepositoryImpl implements TafsirRepository {
     required String verseKey,
     bool forceRefresh = false,
   }) async {
-    final resource = await _getAlMuyassarResource();
+    TafsirResource resource;
+    try {
+      resource = await _getAlMuyassarResource();
+    } catch (_) {
+      final cached = await _localDatasource.getCachedTafsirByLevel(
+        verseKey: verseKey,
+        level: TafsirLevel.alMuyassar,
+      );
+      if (cached != null) {
+        return cached;
+      }
+      rethrow;
+    }
+
     final cached = await _localDatasource.getCachedTafsir(
       verseKey: verseKey,
       resource: resource,

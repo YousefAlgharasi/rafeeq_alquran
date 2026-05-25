@@ -70,6 +70,15 @@ class AudioCacheMetadata extends Table with TimestampColumns {
   BoolColumn get isDownloaded => boolean().withDefault(const Constant(false))();
 }
 
+class QuranRecitersCache extends Table with TimestampColumns {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get reciterId => text().unique()();
+  TextColumn get nameArabic => text().nullable()();
+  TextColumn get nameEnglish => text().nullable()();
+  TextColumn get style => text().nullable()();
+  TextColumn get source => text()();
+}
+
 class DailyAyahHistory extends Table
     with TimestampColumns, SoftDeleteColumn, SyncColumns {
   IntColumn get id => integer().autoIncrement()();
@@ -87,12 +96,31 @@ class ReadingProgress extends Table
   DateTimeColumn get lastReadAt => dateTime().nullable()();
 }
 
+class ReadingSessions extends Table
+    with TimestampColumns, SoftDeleteColumn, SyncColumns {
+  IntColumn get id => integer().autoIncrement()();
+  DateTimeColumn get sessionDate => dateTime()();
+  DateTimeColumn get startedAt => dateTime()();
+  DateTimeColumn get endedAt => dateTime().nullable()();
+  IntColumn get ayahCount => integer().withDefault(const Constant(0))();
+  IntColumn get pageCount => integer().withDefault(const Constant(0))();
+  IntColumn get durationMinutes => integer().withDefault(const Constant(0))();
+  TextColumn get startVerseKey => text().nullable()();
+  TextColumn get endVerseKey => text().nullable()();
+}
+
 class DailyGoals extends Table
     with TimestampColumns, SoftDeleteColumn, SyncColumns {
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get goalDate => dateTime()();
+  TextColumn get goalType =>
+      text().withDefault(const Constant('one_ayah_per_day'))();
   IntColumn get targetVerses => integer().withDefault(const Constant(0))();
   IntColumn get completedVerses => integer().withDefault(const Constant(0))();
+  IntColumn get targetPages => integer().withDefault(const Constant(0))();
+  IntColumn get completedPages => integer().withDefault(const Constant(0))();
+  IntColumn get targetMinutes => integer().withDefault(const Constant(0))();
+  IntColumn get completedMinutes => integer().withDefault(const Constant(0))();
   BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
 }
 
@@ -101,12 +129,15 @@ class StreakRecords extends Table
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get streakDate => dateTime()();
   BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
+  BoolColumn get isMissed => boolean().withDefault(const Constant(false))();
 }
 
 class ReflectionNotes extends Table
     with TimestampColumns, SoftDeleteColumn, SyncColumns {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get verseKey => text().nullable()();
+  TextColumn get sourceType =>
+      text().withDefault(const Constant('quran_ayah'))();
   TextColumn get title => text().nullable()();
   TextColumn get body => text()();
 }
@@ -135,6 +166,7 @@ class AdhkarItems extends Table with TimestampColumns {
   TextColumn get textEnglish => text().nullable()();
   IntColumn get repeatCount => integer().withDefault(const Constant(1))();
   TextColumn get source => text()();
+  TextColumn get sourceReference => text()();
 }
 
 class AdhkarProgressCounters extends Table
@@ -201,8 +233,10 @@ class SyncMetadata extends Table with TimestampColumns {
     QuranVersesCache,
     TafsirCaches,
     AudioCacheMetadata,
+    QuranRecitersCache,
     DailyAyahHistory,
     ReadingProgress,
+    ReadingSessions,
     DailyGoals,
     StreakRecords,
     ReflectionNotes,

@@ -11,10 +11,16 @@ import '../entity/tafsir_resource.dart';
 import '../repository/tafsir_repository.dart';
 
 final tafsirRemoteDatasourceProvider = Provider<TafsirRemoteDatasource>((ref) {
-  return QuranProxyTafsirRemoteDatasource(
+  return IslamicAppTafsirRemoteDatasource(
     dio: ref.watch(dioProvider),
-    config: ref.watch(quranProxyConfigProvider),
+    config: ref.watch(islamicAppQuranConfigProvider),
   );
+
+  // Rollback to Quran.Foundation/Quran.com proxy tafsir:
+  // return QuranProxyTafsirRemoteDatasource(
+  //   dio: ref.watch(dioProvider),
+  //   config: ref.watch(quranProxyConfigProvider),
+  // );
 });
 
 final tafsirLocalDatasourceProvider = Provider<TafsirLocalDatasource>((ref) {
@@ -32,9 +38,11 @@ final tafsirResourcesProvider = FutureProvider<List<TafsirResource>>((ref) {
   return ref.watch(tafsirRepositoryProvider).getResources();
 });
 
-final alMuyassarTafsirProvider =
-    FutureProvider.family<TafsirEntry, String>((ref, verseKey) {
-  return ref.watch(tafsirRepositoryProvider).getAlMuyassarTafsir(
-        verseKey: verseKey,
-      );
+final alMuyassarTafsirProvider = FutureProvider.family<TafsirEntry, String>((
+  ref,
+  verseKey,
+) {
+  return ref
+      .watch(tafsirRepositoryProvider)
+      .getAlMuyassarTafsir(verseKey: verseKey);
 });

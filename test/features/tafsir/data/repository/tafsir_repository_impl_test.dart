@@ -54,17 +54,44 @@ void main() {
     expect(local.cached?.text, 'Remote verified tafsir');
   });
 
-  test('reports unavailable Al-Muyassar resource instead of guessing', () async {
-    final repository = TafsirRepositoryImpl(
-      remoteDatasource: _FakeRemoteDatasource(resources: const []),
-      localDatasource: _FakeLocalDatasource(),
-    );
+  test(
+    'reports unavailable Al-Muyassar resource instead of guessing',
+    () async {
+      final repository = TafsirRepositoryImpl(
+        remoteDatasource: _FakeRemoteDatasource(resources: const []),
+        localDatasource: _FakeLocalDatasource(),
+      );
 
-    expect(
-      () => repository.getAlMuyassarTafsir(verseKey: '1:1'),
-      throwsStateError,
-    );
-  });
+      expect(
+        () => repository.getAlMuyassarTafsir(verseKey: '1:1'),
+        throwsStateError,
+      );
+    },
+  );
+
+  test(
+    'returns cached Al-Muyassar tafsir when resources fail offline',
+    () async {
+      final repository = TafsirRepositoryImpl(
+        remoteDatasource: _FakeRemoteDatasource(throwOnResources: true),
+        localDatasource: _FakeLocalDatasource(
+          cached: const TafsirEntry(
+            verseKey: '1:1',
+            resourceId: 'muyassar',
+            resourceName: 'Al-Muyassar',
+            level: TafsirLevel.alMuyassar,
+            languageCode: 'ar',
+            text: 'Cached offline tafsir',
+            source: 'cache',
+          ),
+        ),
+      );
+
+      final tafsir = await repository.getAlMuyassarTafsir(verseKey: '1:1');
+
+      expect(tafsir.text, 'Cached offline tafsir');
+    },
+  );
 }
 
 class _FakeRemoteDatasource implements TafsirRemoteDatasource {
@@ -79,14 +106,21 @@ class _FakeRemoteDatasource implements TafsirRemoteDatasource {
       ),
     ],
     this.remoteEntry,
+    this.throwOnResources = false,
   });
 
   final List<TafsirResource> resources;
   final TafsirEntry? remoteEntry;
+  final bool throwOnResources;
   int fetchCount = 0;
 
   @override
-  Future<List<TafsirResource>> getResources() async => resources;
+  Future<List<TafsirResource>> getResources() async {
+    if (throwOnResources) {
+      throw StateError('offline');
+    }
+    return resources;
+  }
 
   @override
   Future<TafsirEntry> getTafsir({
@@ -121,6 +155,14 @@ class _FakeLocalDatasource implements TafsirLocalDatasource {
   Future<TafsirEntry?> getCachedTafsir({
     required String verseKey,
     required TafsirResource resource,
+  }) async {
+    return cached;
+  }
+
+  @override
+  Future<TafsirEntry?> getCachedTafsirByLevel({
+    required String verseKey,
+    required TafsirLevel level,
   }) async {
     return cached;
   }

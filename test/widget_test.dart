@@ -11,7 +11,8 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(const RafeqAlQuranApp(locale: Locale('en')));
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
 
     expect(find.text('Home'), findsWidgets);
     expect(find.byType(NavigationBar), findsOneWidget);
@@ -25,7 +26,8 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(const RafeqAlQuranApp(locale: Locale('en')));
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
 
     expect(find.byType(NavigationRail), findsOneWidget);
     expect(find.byType(NavigationBar), findsNothing);
@@ -33,7 +35,8 @@ void main() {
 
   testWidgets('Arabic locale uses RTL text direction', (tester) async {
     await tester.pumpWidget(const RafeqAlQuranApp(locale: Locale('ar')));
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
 
     final directionality = tester.widget<Directionality>(
       find
@@ -50,7 +53,8 @@ void main() {
 
   testWidgets('English locale uses LTR text direction', (tester) async {
     await tester.pumpWidget(const RafeqAlQuranApp(locale: Locale('en')));
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
 
     final directionality = tester.widget<Directionality>(
       find

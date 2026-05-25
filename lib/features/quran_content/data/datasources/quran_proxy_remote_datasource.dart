@@ -5,6 +5,7 @@ import '../../logic/entity/quran_audio_metadata.dart';
 import '../../logic/entity/quran_chapter.dart';
 import '../../logic/entity/quran_tafsir.dart';
 import '../../logic/entity/quran_verse.dart';
+import '../../logic/entity/reciter.dart';
 import '../models/quran_api_models.dart';
 import 'quran_content_datasource.dart';
 
@@ -18,6 +19,11 @@ class QuranProxyRemoteDatasource implements QuranContentRemoteDatasource {
   final Dio _dio;
   final QuranProxyConfig _config;
 
+  static const _verseQueryParameters = <String, Object?>{
+    'fields': 'text_uthmani,chapter_number,verse_number,verse_key',
+    'per_page': 300,
+  };
+
   @override
   Future<List<QuranChapter>> getChapters() async {
     final response = await _dio.get<Object?>('${_config.baseUrl}/chapters');
@@ -30,6 +36,7 @@ class QuranProxyRemoteDatasource implements QuranContentRemoteDatasource {
   Future<List<QuranVerse>> getVersesByChapter(int chapterNumber) async {
     final response = await _dio.get<Object?>(
       '${_config.baseUrl}/verses/chapter/$chapterNumber',
+      queryParameters: _verseQueryParameters,
     );
     return readObjectList(response.data, 'verses')
         .map(QuranApiVerseModel.fromJson)
@@ -41,6 +48,7 @@ class QuranProxyRemoteDatasource implements QuranContentRemoteDatasource {
   Future<List<QuranVerse>> getVersesByPage(int pageNumber) async {
     final response = await _dio.get<Object?>(
       '${_config.baseUrl}/verses/page/$pageNumber',
+      queryParameters: _verseQueryParameters,
     );
     return readObjectList(response.data, 'verses')
         .map(QuranApiVerseModel.fromJson)
@@ -52,6 +60,7 @@ class QuranProxyRemoteDatasource implements QuranContentRemoteDatasource {
   Future<List<QuranVerse>> getVersesByJuz(int juzNumber) async {
     final response = await _dio.get<Object?>(
       '${_config.baseUrl}/verses/juz/$juzNumber',
+      queryParameters: _verseQueryParameters,
     );
     return readObjectList(response.data, 'verses')
         .map(QuranApiVerseModel.fromJson)
@@ -75,6 +84,15 @@ class QuranProxyRemoteDatasource implements QuranContentRemoteDatasource {
       verseKey: verseKey,
       resourceId: resourceId,
     );
+  }
+
+  @override
+  Future<List<Reciter>> getReciters() async {
+    final response = await _dio.get<Object?>('${_config.baseUrl}/audio/reciters');
+    return readObjectList(response.data, 'recitations')
+        .map(QuranApiReciterModel.fromJson)
+        .where((reciter) => reciter.id != '0')
+        .toList();
   }
 
   @override

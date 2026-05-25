@@ -2,8 +2,10 @@ import '../../logic/entity/quran_audio_metadata.dart';
 import '../../logic/entity/quran_chapter.dart';
 import '../../logic/entity/quran_tafsir.dart';
 import '../../logic/entity/quran_verse.dart';
+import '../../logic/entity/reciter.dart';
 
 const quranFoundationSource = 'Quran.Foundation/Quran.com';
+const islamicAppSource = 'islamic.app API';
 
 class QuranApiChapterModel extends QuranChapter {
   const QuranApiChapterModel({
@@ -14,7 +16,10 @@ class QuranApiChapterModel extends QuranChapter {
     super.nameEnglish,
   });
 
-  factory QuranApiChapterModel.fromJson(Map<String, Object?> json) {
+  factory QuranApiChapterModel.fromJson(
+    Map<String, Object?> json, {
+    String source = quranFoundationSource,
+  }) {
     return QuranApiChapterModel(
       chapterNumber:
           _int(json['id'] ?? json['chapter_number'] ?? json['number']) ?? 0,
@@ -23,7 +28,7 @@ class QuranApiChapterModel extends QuranChapter {
       nameEnglish: _string(
         json['name_simple'] ?? json['translated_name'] ?? json['nameEnglish'],
       ),
-      source: quranFoundationSource,
+      source: source,
     );
   }
 }
@@ -39,28 +44,34 @@ class QuranApiVerseModel extends QuranVerse {
     super.translationSource,
   });
 
-  factory QuranApiVerseModel.fromJson(Map<String, Object?> json) {
+  factory QuranApiVerseModel.fromJson(
+    Map<String, Object?> json, {
+    String source = quranFoundationSource,
+  }) {
     final verseKey = _string(json['verse_key'] ?? json['verseKey']) ?? '';
     final keyParts = verseKey.split(':');
 
     return QuranApiVerseModel(
       verseKey: verseKey,
-      chapterNumber: _int(json['chapter_number']) ??
+      chapterNumber:
+          _int(json['chapter_number']) ??
           (keyParts.isNotEmpty ? int.tryParse(keyParts.first) : null) ??
           0,
-      verseNumber: _int(json['verse_number'] ?? json['verseNumber']) ??
+      verseNumber:
+          _int(json['verse_number'] ?? json['verseNumber']) ??
           (keyParts.length > 1 ? int.tryParse(keyParts[1]) : null) ??
           0,
-      textArabic: _string(
+      textArabic:
+          _string(
             json['text_uthmani'] ??
                 json['text_imlaei'] ??
                 json['text_arabic'] ??
                 json['textArabic'],
           ) ??
           '',
-      translationText: _firstTranslationText(json),
+      translationText: _stripHtml(_firstTranslationText(json) ?? ''),
       translationSource: _firstTranslationSource(json),
-      source: quranFoundationSource,
+      source: source,
     );
   }
 }
@@ -80,14 +91,16 @@ class QuranApiTafsirModel extends QuranTafsir {
     required String resourceId,
   }) {
     final tafsir = json['tafsir'];
-    final tafsirJson = tafsir is Map<String, Object?> ? tafsir : json;
+    final tafsirJson = tafsir is Map<String, Object?>
+        ? tafsir
+        : _firstObject(json['tafsirs']) ?? json;
 
     return QuranApiTafsirModel(
       verseKey: verseKey,
       resourceId: resourceId,
       languageCode: _string(tafsirJson['language_name']) ?? 'ar',
       text: _string(tafsirJson['text']),
-      source: quranFoundationSource,
+      source: _string(tafsirJson['resource_name']) ?? quranFoundationSource,
     );
   }
 }
@@ -98,6 +111,8 @@ class QuranApiAudioMetadataModel extends QuranAudioMetadata {
     required super.source,
     super.verseKey,
     super.remoteUrl,
+    super.localPath,
+    super.isDownloaded,
   });
 
   factory QuranApiAudioMetadataModel.fromJson(
@@ -105,9 +120,39 @@ class QuranApiAudioMetadataModel extends QuranAudioMetadata {
     required String reciterId,
   }) {
     return QuranApiAudioMetadataModel(
-      reciterId: reciterId,
+      reciterId: reciterId.isNotEmpty
+          ? reciterId
+          : (_string(json['reciter_id'] ?? json['reciterId']) ?? ''),
       verseKey: _string(json['verse_key'] ?? json['verseKey']),
-      remoteUrl: _string(json['url'] ?? json['audio_url'] ?? json['audioUrl']),
+      remoteUrl: _string(
+        json['url'] ??
+            json['audio_url'] ??
+            json['audioUrl'] ??
+            json['audio_file_url'],
+      ),
+      source: quranFoundationSource,
+    );
+  }
+}
+
+class QuranApiReciterModel extends Reciter {
+  const QuranApiReciterModel({
+    required super.id,
+    required super.source,
+    super.nameArabic,
+    super.nameEnglish,
+    super.style,
+  });
+
+  factory QuranApiReciterModel.fromJson(Map<String, Object?> json) {
+    return QuranApiReciterModel(
+      id: (_int(json['id'] ?? json['reciter_id'] ?? json['reciterId']) ?? 0)
+          .toString(),
+      nameArabic: _string(json['translated_name'] ?? json['name_arabic']),
+      nameEnglish: _string(
+        json['reciter_name'] ?? json['name'] ?? json['nameEnglish'],
+      ),
+      style: _string(json['style']),
       source: quranFoundationSource,
     );
   }
@@ -117,8 +162,14 @@ List<Map<String, Object?>> readObjectList(
   Object? response,
   String preferredKey,
 ) {
-  final data = response is Map<String, Object?> ? response : <String, Object?>{};
-  final value = data[preferredKey] ?? data['data'];
+  final data = response is Map<String, Object?>
+      ? response
+      : <String, Object?>{};
+  final nestedData = data['data'];
+  final value =
+      data[preferredKey] ??
+      (nestedData is Map ? nestedData[preferredKey] : null) ??
+      data['data'];
   if (value is List) {
     return value.whereType<Map>().map((item) {
       return item.cast<String, Object?>();
@@ -126,6 +177,16 @@ List<Map<String, Object?>> readObjectList(
   }
 
   return const [];
+}
+
+Map<String, Object?>? _firstObject(Object? value) {
+  if (value is List && value.isNotEmpty) {
+    final first = value.first;
+    if (first is Map) {
+      return first.cast<String, Object?>();
+    }
+  }
+  return null;
 }
 
 String? _firstTranslationText(Map<String, Object?> json) {
@@ -138,6 +199,15 @@ String? _firstTranslationText(Map<String, Object?> json) {
   }
 
   return _string(json['translationText']);
+}
+
+String? _stripHtml(String value) {
+  final stripped = value
+      .replaceAll(RegExp(r'<sup[^>]*>.*?</sup>', caseSensitive: false), '')
+      .replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), '\n')
+      .replaceAll(RegExp(r'<[^>]+>'), '')
+      .trim();
+  return stripped.isEmpty ? null : stripped;
 }
 
 String? _firstTranslationSource(Map<String, Object?> json) {

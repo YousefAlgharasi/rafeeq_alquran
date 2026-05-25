@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "91090794743",
+    "project_id": "rafeeq-alquran",
+    "storage_bucket": "rafeeq-alquran.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91090794743:android:71d264c018eedd864b7bf2",
+        "android_client_info": {
+          "package_name": "com.yousefapps.rafeeq_alquran"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjwPQr286MmE746HPagz-ccEda-OlQhpg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

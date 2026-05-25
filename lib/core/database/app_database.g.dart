@@ -2836,6 +2836,517 @@ class AudioCacheMetadataCompanion
   }
 }
 
+class $QuranRecitersCacheTable extends QuranRecitersCache
+    with TableInfo<$QuranRecitersCacheTable, QuranRecitersCacheData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $QuranRecitersCacheTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _reciterIdMeta = const VerificationMeta(
+    'reciterId',
+  );
+  @override
+  late final GeneratedColumn<String> reciterId = GeneratedColumn<String>(
+    'reciter_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _nameArabicMeta = const VerificationMeta(
+    'nameArabic',
+  );
+  @override
+  late final GeneratedColumn<String> nameArabic = GeneratedColumn<String>(
+    'name_arabic',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _nameEnglishMeta = const VerificationMeta(
+    'nameEnglish',
+  );
+  @override
+  late final GeneratedColumn<String> nameEnglish = GeneratedColumn<String>(
+    'name_english',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _styleMeta = const VerificationMeta('style');
+  @override
+  late final GeneratedColumn<String> style = GeneratedColumn<String>(
+    'style',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sourceMeta = const VerificationMeta('source');
+  @override
+  late final GeneratedColumn<String> source = GeneratedColumn<String>(
+    'source',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    createdAt,
+    updatedAt,
+    id,
+    reciterId,
+    nameArabic,
+    nameEnglish,
+    style,
+    source,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'quran_reciters_cache';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<QuranRecitersCacheData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('reciter_id')) {
+      context.handle(
+        _reciterIdMeta,
+        reciterId.isAcceptableOrUnknown(data['reciter_id']!, _reciterIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_reciterIdMeta);
+    }
+    if (data.containsKey('name_arabic')) {
+      context.handle(
+        _nameArabicMeta,
+        nameArabic.isAcceptableOrUnknown(data['name_arabic']!, _nameArabicMeta),
+      );
+    }
+    if (data.containsKey('name_english')) {
+      context.handle(
+        _nameEnglishMeta,
+        nameEnglish.isAcceptableOrUnknown(
+          data['name_english']!,
+          _nameEnglishMeta,
+        ),
+      );
+    }
+    if (data.containsKey('style')) {
+      context.handle(
+        _styleMeta,
+        style.isAcceptableOrUnknown(data['style']!, _styleMeta),
+      );
+    }
+    if (data.containsKey('source')) {
+      context.handle(
+        _sourceMeta,
+        source.isAcceptableOrUnknown(data['source']!, _sourceMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  QuranRecitersCacheData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return QuranRecitersCacheData(
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      reciterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reciter_id'],
+      )!,
+      nameArabic: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name_arabic'],
+      ),
+      nameEnglish: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name_english'],
+      ),
+      style: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}style'],
+      ),
+      source: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source'],
+      )!,
+    );
+  }
+
+  @override
+  $QuranRecitersCacheTable createAlias(String alias) {
+    return $QuranRecitersCacheTable(attachedDatabase, alias);
+  }
+}
+
+class QuranRecitersCacheData extends DataClass
+    implements Insertable<QuranRecitersCacheData> {
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int id;
+  final String reciterId;
+  final String? nameArabic;
+  final String? nameEnglish;
+  final String? style;
+  final String source;
+  const QuranRecitersCacheData({
+    required this.createdAt,
+    required this.updatedAt,
+    required this.id,
+    required this.reciterId,
+    this.nameArabic,
+    this.nameEnglish,
+    this.style,
+    required this.source,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['id'] = Variable<int>(id);
+    map['reciter_id'] = Variable<String>(reciterId);
+    if (!nullToAbsent || nameArabic != null) {
+      map['name_arabic'] = Variable<String>(nameArabic);
+    }
+    if (!nullToAbsent || nameEnglish != null) {
+      map['name_english'] = Variable<String>(nameEnglish);
+    }
+    if (!nullToAbsent || style != null) {
+      map['style'] = Variable<String>(style);
+    }
+    map['source'] = Variable<String>(source);
+    return map;
+  }
+
+  QuranRecitersCacheCompanion toCompanion(bool nullToAbsent) {
+    return QuranRecitersCacheCompanion(
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      id: Value(id),
+      reciterId: Value(reciterId),
+      nameArabic: nameArabic == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nameArabic),
+      nameEnglish: nameEnglish == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nameEnglish),
+      style: style == null && nullToAbsent
+          ? const Value.absent()
+          : Value(style),
+      source: Value(source),
+    );
+  }
+
+  factory QuranRecitersCacheData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return QuranRecitersCacheData(
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      id: serializer.fromJson<int>(json['id']),
+      reciterId: serializer.fromJson<String>(json['reciterId']),
+      nameArabic: serializer.fromJson<String?>(json['nameArabic']),
+      nameEnglish: serializer.fromJson<String?>(json['nameEnglish']),
+      style: serializer.fromJson<String?>(json['style']),
+      source: serializer.fromJson<String>(json['source']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'id': serializer.toJson<int>(id),
+      'reciterId': serializer.toJson<String>(reciterId),
+      'nameArabic': serializer.toJson<String?>(nameArabic),
+      'nameEnglish': serializer.toJson<String?>(nameEnglish),
+      'style': serializer.toJson<String?>(style),
+      'source': serializer.toJson<String>(source),
+    };
+  }
+
+  QuranRecitersCacheData copyWith({
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? id,
+    String? reciterId,
+    Value<String?> nameArabic = const Value.absent(),
+    Value<String?> nameEnglish = const Value.absent(),
+    Value<String?> style = const Value.absent(),
+    String? source,
+  }) => QuranRecitersCacheData(
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    id: id ?? this.id,
+    reciterId: reciterId ?? this.reciterId,
+    nameArabic: nameArabic.present ? nameArabic.value : this.nameArabic,
+    nameEnglish: nameEnglish.present ? nameEnglish.value : this.nameEnglish,
+    style: style.present ? style.value : this.style,
+    source: source ?? this.source,
+  );
+  QuranRecitersCacheData copyWithCompanion(QuranRecitersCacheCompanion data) {
+    return QuranRecitersCacheData(
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      id: data.id.present ? data.id.value : this.id,
+      reciterId: data.reciterId.present ? data.reciterId.value : this.reciterId,
+      nameArabic: data.nameArabic.present
+          ? data.nameArabic.value
+          : this.nameArabic,
+      nameEnglish: data.nameEnglish.present
+          ? data.nameEnglish.value
+          : this.nameEnglish,
+      style: data.style.present ? data.style.value : this.style,
+      source: data.source.present ? data.source.value : this.source,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('QuranRecitersCacheData(')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('id: $id, ')
+          ..write('reciterId: $reciterId, ')
+          ..write('nameArabic: $nameArabic, ')
+          ..write('nameEnglish: $nameEnglish, ')
+          ..write('style: $style, ')
+          ..write('source: $source')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    createdAt,
+    updatedAt,
+    id,
+    reciterId,
+    nameArabic,
+    nameEnglish,
+    style,
+    source,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is QuranRecitersCacheData &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.id == this.id &&
+          other.reciterId == this.reciterId &&
+          other.nameArabic == this.nameArabic &&
+          other.nameEnglish == this.nameEnglish &&
+          other.style == this.style &&
+          other.source == this.source);
+}
+
+class QuranRecitersCacheCompanion
+    extends UpdateCompanion<QuranRecitersCacheData> {
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> id;
+  final Value<String> reciterId;
+  final Value<String?> nameArabic;
+  final Value<String?> nameEnglish;
+  final Value<String?> style;
+  final Value<String> source;
+  const QuranRecitersCacheCompanion({
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.id = const Value.absent(),
+    this.reciterId = const Value.absent(),
+    this.nameArabic = const Value.absent(),
+    this.nameEnglish = const Value.absent(),
+    this.style = const Value.absent(),
+    this.source = const Value.absent(),
+  });
+  QuranRecitersCacheCompanion.insert({
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.id = const Value.absent(),
+    required String reciterId,
+    this.nameArabic = const Value.absent(),
+    this.nameEnglish = const Value.absent(),
+    this.style = const Value.absent(),
+    required String source,
+  }) : createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt),
+       reciterId = Value(reciterId),
+       source = Value(source);
+  static Insertable<QuranRecitersCacheData> custom({
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? id,
+    Expression<String>? reciterId,
+    Expression<String>? nameArabic,
+    Expression<String>? nameEnglish,
+    Expression<String>? style,
+    Expression<String>? source,
+  }) {
+    return RawValuesInsertable({
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (id != null) 'id': id,
+      if (reciterId != null) 'reciter_id': reciterId,
+      if (nameArabic != null) 'name_arabic': nameArabic,
+      if (nameEnglish != null) 'name_english': nameEnglish,
+      if (style != null) 'style': style,
+      if (source != null) 'source': source,
+    });
+  }
+
+  QuranRecitersCacheCompanion copyWith({
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? id,
+    Value<String>? reciterId,
+    Value<String?>? nameArabic,
+    Value<String?>? nameEnglish,
+    Value<String?>? style,
+    Value<String>? source,
+  }) {
+    return QuranRecitersCacheCompanion(
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      id: id ?? this.id,
+      reciterId: reciterId ?? this.reciterId,
+      nameArabic: nameArabic ?? this.nameArabic,
+      nameEnglish: nameEnglish ?? this.nameEnglish,
+      style: style ?? this.style,
+      source: source ?? this.source,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (reciterId.present) {
+      map['reciter_id'] = Variable<String>(reciterId.value);
+    }
+    if (nameArabic.present) {
+      map['name_arabic'] = Variable<String>(nameArabic.value);
+    }
+    if (nameEnglish.present) {
+      map['name_english'] = Variable<String>(nameEnglish.value);
+    }
+    if (style.present) {
+      map['style'] = Variable<String>(style.value);
+    }
+    if (source.present) {
+      map['source'] = Variable<String>(source.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('QuranRecitersCacheCompanion(')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('id: $id, ')
+          ..write('reciterId: $reciterId, ')
+          ..write('nameArabic: $nameArabic, ')
+          ..write('nameEnglish: $nameEnglish, ')
+          ..write('style: $style, ')
+          ..write('source: $source')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $DailyAyahHistoryTable extends DailyAyahHistory
     with TableInfo<$DailyAyahHistoryTable, DailyAyahHistoryData> {
   @override
@@ -4124,6 +4635,873 @@ class ReadingProgressCompanion extends UpdateCompanion<ReadingProgressData> {
   }
 }
 
+class $ReadingSessionsTable extends ReadingSessions
+    with TableInfo<$ReadingSessionsTable, ReadingSession> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ReadingSessionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _firebaseIdMeta = const VerificationMeta(
+    'firebaseId',
+  );
+  @override
+  late final GeneratedColumn<String> firebaseId = GeneratedColumn<String>(
+    'firebase_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _ownerUserIdMeta = const VerificationMeta(
+    'ownerUserId',
+  );
+  @override
+  late final GeneratedColumn<String> ownerUserId = GeneratedColumn<String>(
+    'owner_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _syncStatusMeta = const VerificationMeta(
+    'syncStatus',
+  );
+  @override
+  late final GeneratedColumn<String> syncStatus = GeneratedColumn<String>(
+    'sync_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('local'),
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _sessionDateMeta = const VerificationMeta(
+    'sessionDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> sessionDate = GeneratedColumn<DateTime>(
+    'session_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startedAtMeta = const VerificationMeta(
+    'startedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startedAt = GeneratedColumn<DateTime>(
+    'started_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endedAtMeta = const VerificationMeta(
+    'endedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> endedAt = GeneratedColumn<DateTime>(
+    'ended_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _ayahCountMeta = const VerificationMeta(
+    'ayahCount',
+  );
+  @override
+  late final GeneratedColumn<int> ayahCount = GeneratedColumn<int>(
+    'ayah_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _pageCountMeta = const VerificationMeta(
+    'pageCount',
+  );
+  @override
+  late final GeneratedColumn<int> pageCount = GeneratedColumn<int>(
+    'page_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _durationMinutesMeta = const VerificationMeta(
+    'durationMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> durationMinutes = GeneratedColumn<int>(
+    'duration_minutes',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _startVerseKeyMeta = const VerificationMeta(
+    'startVerseKey',
+  );
+  @override
+  late final GeneratedColumn<String> startVerseKey = GeneratedColumn<String>(
+    'start_verse_key',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _endVerseKeyMeta = const VerificationMeta(
+    'endVerseKey',
+  );
+  @override
+  late final GeneratedColumn<String> endVerseKey = GeneratedColumn<String>(
+    'end_verse_key',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    createdAt,
+    updatedAt,
+    deletedAt,
+    firebaseId,
+    ownerUserId,
+    syncStatus,
+    id,
+    sessionDate,
+    startedAt,
+    endedAt,
+    ayahCount,
+    pageCount,
+    durationMinutes,
+    startVerseKey,
+    endVerseKey,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'reading_sessions';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ReadingSession> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('firebase_id')) {
+      context.handle(
+        _firebaseIdMeta,
+        firebaseId.isAcceptableOrUnknown(data['firebase_id']!, _firebaseIdMeta),
+      );
+    }
+    if (data.containsKey('owner_user_id')) {
+      context.handle(
+        _ownerUserIdMeta,
+        ownerUserId.isAcceptableOrUnknown(
+          data['owner_user_id']!,
+          _ownerUserIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('sync_status')) {
+      context.handle(
+        _syncStatusMeta,
+        syncStatus.isAcceptableOrUnknown(data['sync_status']!, _syncStatusMeta),
+      );
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('session_date')) {
+      context.handle(
+        _sessionDateMeta,
+        sessionDate.isAcceptableOrUnknown(
+          data['session_date']!,
+          _sessionDateMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sessionDateMeta);
+    }
+    if (data.containsKey('started_at')) {
+      context.handle(
+        _startedAtMeta,
+        startedAt.isAcceptableOrUnknown(data['started_at']!, _startedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startedAtMeta);
+    }
+    if (data.containsKey('ended_at')) {
+      context.handle(
+        _endedAtMeta,
+        endedAt.isAcceptableOrUnknown(data['ended_at']!, _endedAtMeta),
+      );
+    }
+    if (data.containsKey('ayah_count')) {
+      context.handle(
+        _ayahCountMeta,
+        ayahCount.isAcceptableOrUnknown(data['ayah_count']!, _ayahCountMeta),
+      );
+    }
+    if (data.containsKey('page_count')) {
+      context.handle(
+        _pageCountMeta,
+        pageCount.isAcceptableOrUnknown(data['page_count']!, _pageCountMeta),
+      );
+    }
+    if (data.containsKey('duration_minutes')) {
+      context.handle(
+        _durationMinutesMeta,
+        durationMinutes.isAcceptableOrUnknown(
+          data['duration_minutes']!,
+          _durationMinutesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('start_verse_key')) {
+      context.handle(
+        _startVerseKeyMeta,
+        startVerseKey.isAcceptableOrUnknown(
+          data['start_verse_key']!,
+          _startVerseKeyMeta,
+        ),
+      );
+    }
+    if (data.containsKey('end_verse_key')) {
+      context.handle(
+        _endVerseKeyMeta,
+        endVerseKey.isAcceptableOrUnknown(
+          data['end_verse_key']!,
+          _endVerseKeyMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ReadingSession map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ReadingSession(
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      firebaseId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}firebase_id'],
+      ),
+      ownerUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}owner_user_id'],
+      ),
+      syncStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sync_status'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      sessionDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}session_date'],
+      )!,
+      startedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}started_at'],
+      )!,
+      endedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}ended_at'],
+      ),
+      ayahCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}ayah_count'],
+      )!,
+      pageCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}page_count'],
+      )!,
+      durationMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}duration_minutes'],
+      )!,
+      startVerseKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}start_verse_key'],
+      ),
+      endVerseKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}end_verse_key'],
+      ),
+    );
+  }
+
+  @override
+  $ReadingSessionsTable createAlias(String alias) {
+    return $ReadingSessionsTable(attachedDatabase, alias);
+  }
+}
+
+class ReadingSession extends DataClass implements Insertable<ReadingSession> {
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? deletedAt;
+  final String? firebaseId;
+  final String? ownerUserId;
+  final String syncStatus;
+  final int id;
+  final DateTime sessionDate;
+  final DateTime startedAt;
+  final DateTime? endedAt;
+  final int ayahCount;
+  final int pageCount;
+  final int durationMinutes;
+  final String? startVerseKey;
+  final String? endVerseKey;
+  const ReadingSession({
+    required this.createdAt,
+    required this.updatedAt,
+    this.deletedAt,
+    this.firebaseId,
+    this.ownerUserId,
+    required this.syncStatus,
+    required this.id,
+    required this.sessionDate,
+    required this.startedAt,
+    this.endedAt,
+    required this.ayahCount,
+    required this.pageCount,
+    required this.durationMinutes,
+    this.startVerseKey,
+    this.endVerseKey,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    if (!nullToAbsent || firebaseId != null) {
+      map['firebase_id'] = Variable<String>(firebaseId);
+    }
+    if (!nullToAbsent || ownerUserId != null) {
+      map['owner_user_id'] = Variable<String>(ownerUserId);
+    }
+    map['sync_status'] = Variable<String>(syncStatus);
+    map['id'] = Variable<int>(id);
+    map['session_date'] = Variable<DateTime>(sessionDate);
+    map['started_at'] = Variable<DateTime>(startedAt);
+    if (!nullToAbsent || endedAt != null) {
+      map['ended_at'] = Variable<DateTime>(endedAt);
+    }
+    map['ayah_count'] = Variable<int>(ayahCount);
+    map['page_count'] = Variable<int>(pageCount);
+    map['duration_minutes'] = Variable<int>(durationMinutes);
+    if (!nullToAbsent || startVerseKey != null) {
+      map['start_verse_key'] = Variable<String>(startVerseKey);
+    }
+    if (!nullToAbsent || endVerseKey != null) {
+      map['end_verse_key'] = Variable<String>(endVerseKey);
+    }
+    return map;
+  }
+
+  ReadingSessionsCompanion toCompanion(bool nullToAbsent) {
+    return ReadingSessionsCompanion(
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      firebaseId: firebaseId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(firebaseId),
+      ownerUserId: ownerUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(ownerUserId),
+      syncStatus: Value(syncStatus),
+      id: Value(id),
+      sessionDate: Value(sessionDate),
+      startedAt: Value(startedAt),
+      endedAt: endedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endedAt),
+      ayahCount: Value(ayahCount),
+      pageCount: Value(pageCount),
+      durationMinutes: Value(durationMinutes),
+      startVerseKey: startVerseKey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(startVerseKey),
+      endVerseKey: endVerseKey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endVerseKey),
+    );
+  }
+
+  factory ReadingSession.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ReadingSession(
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      firebaseId: serializer.fromJson<String?>(json['firebaseId']),
+      ownerUserId: serializer.fromJson<String?>(json['ownerUserId']),
+      syncStatus: serializer.fromJson<String>(json['syncStatus']),
+      id: serializer.fromJson<int>(json['id']),
+      sessionDate: serializer.fromJson<DateTime>(json['sessionDate']),
+      startedAt: serializer.fromJson<DateTime>(json['startedAt']),
+      endedAt: serializer.fromJson<DateTime?>(json['endedAt']),
+      ayahCount: serializer.fromJson<int>(json['ayahCount']),
+      pageCount: serializer.fromJson<int>(json['pageCount']),
+      durationMinutes: serializer.fromJson<int>(json['durationMinutes']),
+      startVerseKey: serializer.fromJson<String?>(json['startVerseKey']),
+      endVerseKey: serializer.fromJson<String?>(json['endVerseKey']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'firebaseId': serializer.toJson<String?>(firebaseId),
+      'ownerUserId': serializer.toJson<String?>(ownerUserId),
+      'syncStatus': serializer.toJson<String>(syncStatus),
+      'id': serializer.toJson<int>(id),
+      'sessionDate': serializer.toJson<DateTime>(sessionDate),
+      'startedAt': serializer.toJson<DateTime>(startedAt),
+      'endedAt': serializer.toJson<DateTime?>(endedAt),
+      'ayahCount': serializer.toJson<int>(ayahCount),
+      'pageCount': serializer.toJson<int>(pageCount),
+      'durationMinutes': serializer.toJson<int>(durationMinutes),
+      'startVerseKey': serializer.toJson<String?>(startVerseKey),
+      'endVerseKey': serializer.toJson<String?>(endVerseKey),
+    };
+  }
+
+  ReadingSession copyWith({
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    Value<String?> firebaseId = const Value.absent(),
+    Value<String?> ownerUserId = const Value.absent(),
+    String? syncStatus,
+    int? id,
+    DateTime? sessionDate,
+    DateTime? startedAt,
+    Value<DateTime?> endedAt = const Value.absent(),
+    int? ayahCount,
+    int? pageCount,
+    int? durationMinutes,
+    Value<String?> startVerseKey = const Value.absent(),
+    Value<String?> endVerseKey = const Value.absent(),
+  }) => ReadingSession(
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    firebaseId: firebaseId.present ? firebaseId.value : this.firebaseId,
+    ownerUserId: ownerUserId.present ? ownerUserId.value : this.ownerUserId,
+    syncStatus: syncStatus ?? this.syncStatus,
+    id: id ?? this.id,
+    sessionDate: sessionDate ?? this.sessionDate,
+    startedAt: startedAt ?? this.startedAt,
+    endedAt: endedAt.present ? endedAt.value : this.endedAt,
+    ayahCount: ayahCount ?? this.ayahCount,
+    pageCount: pageCount ?? this.pageCount,
+    durationMinutes: durationMinutes ?? this.durationMinutes,
+    startVerseKey: startVerseKey.present
+        ? startVerseKey.value
+        : this.startVerseKey,
+    endVerseKey: endVerseKey.present ? endVerseKey.value : this.endVerseKey,
+  );
+  ReadingSession copyWithCompanion(ReadingSessionsCompanion data) {
+    return ReadingSession(
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      firebaseId: data.firebaseId.present
+          ? data.firebaseId.value
+          : this.firebaseId,
+      ownerUserId: data.ownerUserId.present
+          ? data.ownerUserId.value
+          : this.ownerUserId,
+      syncStatus: data.syncStatus.present
+          ? data.syncStatus.value
+          : this.syncStatus,
+      id: data.id.present ? data.id.value : this.id,
+      sessionDate: data.sessionDate.present
+          ? data.sessionDate.value
+          : this.sessionDate,
+      startedAt: data.startedAt.present ? data.startedAt.value : this.startedAt,
+      endedAt: data.endedAt.present ? data.endedAt.value : this.endedAt,
+      ayahCount: data.ayahCount.present ? data.ayahCount.value : this.ayahCount,
+      pageCount: data.pageCount.present ? data.pageCount.value : this.pageCount,
+      durationMinutes: data.durationMinutes.present
+          ? data.durationMinutes.value
+          : this.durationMinutes,
+      startVerseKey: data.startVerseKey.present
+          ? data.startVerseKey.value
+          : this.startVerseKey,
+      endVerseKey: data.endVerseKey.present
+          ? data.endVerseKey.value
+          : this.endVerseKey,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReadingSession(')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('firebaseId: $firebaseId, ')
+          ..write('ownerUserId: $ownerUserId, ')
+          ..write('syncStatus: $syncStatus, ')
+          ..write('id: $id, ')
+          ..write('sessionDate: $sessionDate, ')
+          ..write('startedAt: $startedAt, ')
+          ..write('endedAt: $endedAt, ')
+          ..write('ayahCount: $ayahCount, ')
+          ..write('pageCount: $pageCount, ')
+          ..write('durationMinutes: $durationMinutes, ')
+          ..write('startVerseKey: $startVerseKey, ')
+          ..write('endVerseKey: $endVerseKey')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    createdAt,
+    updatedAt,
+    deletedAt,
+    firebaseId,
+    ownerUserId,
+    syncStatus,
+    id,
+    sessionDate,
+    startedAt,
+    endedAt,
+    ayahCount,
+    pageCount,
+    durationMinutes,
+    startVerseKey,
+    endVerseKey,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ReadingSession &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.firebaseId == this.firebaseId &&
+          other.ownerUserId == this.ownerUserId &&
+          other.syncStatus == this.syncStatus &&
+          other.id == this.id &&
+          other.sessionDate == this.sessionDate &&
+          other.startedAt == this.startedAt &&
+          other.endedAt == this.endedAt &&
+          other.ayahCount == this.ayahCount &&
+          other.pageCount == this.pageCount &&
+          other.durationMinutes == this.durationMinutes &&
+          other.startVerseKey == this.startVerseKey &&
+          other.endVerseKey == this.endVerseKey);
+}
+
+class ReadingSessionsCompanion extends UpdateCompanion<ReadingSession> {
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<String?> firebaseId;
+  final Value<String?> ownerUserId;
+  final Value<String> syncStatus;
+  final Value<int> id;
+  final Value<DateTime> sessionDate;
+  final Value<DateTime> startedAt;
+  final Value<DateTime?> endedAt;
+  final Value<int> ayahCount;
+  final Value<int> pageCount;
+  final Value<int> durationMinutes;
+  final Value<String?> startVerseKey;
+  final Value<String?> endVerseKey;
+  const ReadingSessionsCompanion({
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.firebaseId = const Value.absent(),
+    this.ownerUserId = const Value.absent(),
+    this.syncStatus = const Value.absent(),
+    this.id = const Value.absent(),
+    this.sessionDate = const Value.absent(),
+    this.startedAt = const Value.absent(),
+    this.endedAt = const Value.absent(),
+    this.ayahCount = const Value.absent(),
+    this.pageCount = const Value.absent(),
+    this.durationMinutes = const Value.absent(),
+    this.startVerseKey = const Value.absent(),
+    this.endVerseKey = const Value.absent(),
+  });
+  ReadingSessionsCompanion.insert({
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.deletedAt = const Value.absent(),
+    this.firebaseId = const Value.absent(),
+    this.ownerUserId = const Value.absent(),
+    this.syncStatus = const Value.absent(),
+    this.id = const Value.absent(),
+    required DateTime sessionDate,
+    required DateTime startedAt,
+    this.endedAt = const Value.absent(),
+    this.ayahCount = const Value.absent(),
+    this.pageCount = const Value.absent(),
+    this.durationMinutes = const Value.absent(),
+    this.startVerseKey = const Value.absent(),
+    this.endVerseKey = const Value.absent(),
+  }) : createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt),
+       sessionDate = Value(sessionDate),
+       startedAt = Value(startedAt);
+  static Insertable<ReadingSession> custom({
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<String>? firebaseId,
+    Expression<String>? ownerUserId,
+    Expression<String>? syncStatus,
+    Expression<int>? id,
+    Expression<DateTime>? sessionDate,
+    Expression<DateTime>? startedAt,
+    Expression<DateTime>? endedAt,
+    Expression<int>? ayahCount,
+    Expression<int>? pageCount,
+    Expression<int>? durationMinutes,
+    Expression<String>? startVerseKey,
+    Expression<String>? endVerseKey,
+  }) {
+    return RawValuesInsertable({
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (firebaseId != null) 'firebase_id': firebaseId,
+      if (ownerUserId != null) 'owner_user_id': ownerUserId,
+      if (syncStatus != null) 'sync_status': syncStatus,
+      if (id != null) 'id': id,
+      if (sessionDate != null) 'session_date': sessionDate,
+      if (startedAt != null) 'started_at': startedAt,
+      if (endedAt != null) 'ended_at': endedAt,
+      if (ayahCount != null) 'ayah_count': ayahCount,
+      if (pageCount != null) 'page_count': pageCount,
+      if (durationMinutes != null) 'duration_minutes': durationMinutes,
+      if (startVerseKey != null) 'start_verse_key': startVerseKey,
+      if (endVerseKey != null) 'end_verse_key': endVerseKey,
+    });
+  }
+
+  ReadingSessionsCompanion copyWith({
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<String?>? firebaseId,
+    Value<String?>? ownerUserId,
+    Value<String>? syncStatus,
+    Value<int>? id,
+    Value<DateTime>? sessionDate,
+    Value<DateTime>? startedAt,
+    Value<DateTime?>? endedAt,
+    Value<int>? ayahCount,
+    Value<int>? pageCount,
+    Value<int>? durationMinutes,
+    Value<String?>? startVerseKey,
+    Value<String?>? endVerseKey,
+  }) {
+    return ReadingSessionsCompanion(
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      firebaseId: firebaseId ?? this.firebaseId,
+      ownerUserId: ownerUserId ?? this.ownerUserId,
+      syncStatus: syncStatus ?? this.syncStatus,
+      id: id ?? this.id,
+      sessionDate: sessionDate ?? this.sessionDate,
+      startedAt: startedAt ?? this.startedAt,
+      endedAt: endedAt ?? this.endedAt,
+      ayahCount: ayahCount ?? this.ayahCount,
+      pageCount: pageCount ?? this.pageCount,
+      durationMinutes: durationMinutes ?? this.durationMinutes,
+      startVerseKey: startVerseKey ?? this.startVerseKey,
+      endVerseKey: endVerseKey ?? this.endVerseKey,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (firebaseId.present) {
+      map['firebase_id'] = Variable<String>(firebaseId.value);
+    }
+    if (ownerUserId.present) {
+      map['owner_user_id'] = Variable<String>(ownerUserId.value);
+    }
+    if (syncStatus.present) {
+      map['sync_status'] = Variable<String>(syncStatus.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (sessionDate.present) {
+      map['session_date'] = Variable<DateTime>(sessionDate.value);
+    }
+    if (startedAt.present) {
+      map['started_at'] = Variable<DateTime>(startedAt.value);
+    }
+    if (endedAt.present) {
+      map['ended_at'] = Variable<DateTime>(endedAt.value);
+    }
+    if (ayahCount.present) {
+      map['ayah_count'] = Variable<int>(ayahCount.value);
+    }
+    if (pageCount.present) {
+      map['page_count'] = Variable<int>(pageCount.value);
+    }
+    if (durationMinutes.present) {
+      map['duration_minutes'] = Variable<int>(durationMinutes.value);
+    }
+    if (startVerseKey.present) {
+      map['start_verse_key'] = Variable<String>(startVerseKey.value);
+    }
+    if (endVerseKey.present) {
+      map['end_verse_key'] = Variable<String>(endVerseKey.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReadingSessionsCompanion(')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('firebaseId: $firebaseId, ')
+          ..write('ownerUserId: $ownerUserId, ')
+          ..write('syncStatus: $syncStatus, ')
+          ..write('id: $id, ')
+          ..write('sessionDate: $sessionDate, ')
+          ..write('startedAt: $startedAt, ')
+          ..write('endedAt: $endedAt, ')
+          ..write('ayahCount: $ayahCount, ')
+          ..write('pageCount: $pageCount, ')
+          ..write('durationMinutes: $durationMinutes, ')
+          ..write('startVerseKey: $startVerseKey, ')
+          ..write('endVerseKey: $endVerseKey')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $DailyGoalsTable extends DailyGoals
     with TableInfo<$DailyGoalsTable, DailyGoal> {
   @override
@@ -4221,6 +5599,18 @@ class $DailyGoalsTable extends DailyGoals
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _goalTypeMeta = const VerificationMeta(
+    'goalType',
+  );
+  @override
+  late final GeneratedColumn<String> goalType = GeneratedColumn<String>(
+    'goal_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('one_ayah_per_day'),
+  );
   static const VerificationMeta _targetVersesMeta = const VerificationMeta(
     'targetVerses',
   );
@@ -4239,6 +5629,54 @@ class $DailyGoalsTable extends DailyGoals
   @override
   late final GeneratedColumn<int> completedVerses = GeneratedColumn<int>(
     'completed_verses',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _targetPagesMeta = const VerificationMeta(
+    'targetPages',
+  );
+  @override
+  late final GeneratedColumn<int> targetPages = GeneratedColumn<int>(
+    'target_pages',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _completedPagesMeta = const VerificationMeta(
+    'completedPages',
+  );
+  @override
+  late final GeneratedColumn<int> completedPages = GeneratedColumn<int>(
+    'completed_pages',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _targetMinutesMeta = const VerificationMeta(
+    'targetMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> targetMinutes = GeneratedColumn<int>(
+    'target_minutes',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _completedMinutesMeta = const VerificationMeta(
+    'completedMinutes',
+  );
+  @override
+  late final GeneratedColumn<int> completedMinutes = GeneratedColumn<int>(
+    'completed_minutes',
     aliasedName,
     false,
     type: DriftSqlType.int,
@@ -4270,8 +5708,13 @@ class $DailyGoalsTable extends DailyGoals
     syncStatus,
     id,
     goalDate,
+    goalType,
     targetVerses,
     completedVerses,
+    targetPages,
+    completedPages,
+    targetMinutes,
+    completedMinutes,
     isCompleted,
   ];
   @override
@@ -4340,6 +5783,12 @@ class $DailyGoalsTable extends DailyGoals
     } else if (isInserting) {
       context.missing(_goalDateMeta);
     }
+    if (data.containsKey('goal_type')) {
+      context.handle(
+        _goalTypeMeta,
+        goalType.isAcceptableOrUnknown(data['goal_type']!, _goalTypeMeta),
+      );
+    }
     if (data.containsKey('target_verses')) {
       context.handle(
         _targetVersesMeta,
@@ -4355,6 +5804,42 @@ class $DailyGoalsTable extends DailyGoals
         completedVerses.isAcceptableOrUnknown(
           data['completed_verses']!,
           _completedVersesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('target_pages')) {
+      context.handle(
+        _targetPagesMeta,
+        targetPages.isAcceptableOrUnknown(
+          data['target_pages']!,
+          _targetPagesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('completed_pages')) {
+      context.handle(
+        _completedPagesMeta,
+        completedPages.isAcceptableOrUnknown(
+          data['completed_pages']!,
+          _completedPagesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('target_minutes')) {
+      context.handle(
+        _targetMinutesMeta,
+        targetMinutes.isAcceptableOrUnknown(
+          data['target_minutes']!,
+          _targetMinutesMeta,
+        ),
+      );
+    }
+    if (data.containsKey('completed_minutes')) {
+      context.handle(
+        _completedMinutesMeta,
+        completedMinutes.isAcceptableOrUnknown(
+          data['completed_minutes']!,
+          _completedMinutesMeta,
         ),
       );
     }
@@ -4408,6 +5893,10 @@ class $DailyGoalsTable extends DailyGoals
         DriftSqlType.dateTime,
         data['${effectivePrefix}goal_date'],
       )!,
+      goalType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}goal_type'],
+      )!,
       targetVerses: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}target_verses'],
@@ -4415,6 +5904,22 @@ class $DailyGoalsTable extends DailyGoals
       completedVerses: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}completed_verses'],
+      )!,
+      targetPages: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}target_pages'],
+      )!,
+      completedPages: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}completed_pages'],
+      )!,
+      targetMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}target_minutes'],
+      )!,
+      completedMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}completed_minutes'],
       )!,
       isCompleted: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
@@ -4438,8 +5943,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
   final String syncStatus;
   final int id;
   final DateTime goalDate;
+  final String goalType;
   final int targetVerses;
   final int completedVerses;
+  final int targetPages;
+  final int completedPages;
+  final int targetMinutes;
+  final int completedMinutes;
   final bool isCompleted;
   const DailyGoal({
     required this.createdAt,
@@ -4450,8 +5960,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
     required this.syncStatus,
     required this.id,
     required this.goalDate,
+    required this.goalType,
     required this.targetVerses,
     required this.completedVerses,
+    required this.targetPages,
+    required this.completedPages,
+    required this.targetMinutes,
+    required this.completedMinutes,
     required this.isCompleted,
   });
   @override
@@ -4471,8 +5986,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
     map['sync_status'] = Variable<String>(syncStatus);
     map['id'] = Variable<int>(id);
     map['goal_date'] = Variable<DateTime>(goalDate);
+    map['goal_type'] = Variable<String>(goalType);
     map['target_verses'] = Variable<int>(targetVerses);
     map['completed_verses'] = Variable<int>(completedVerses);
+    map['target_pages'] = Variable<int>(targetPages);
+    map['completed_pages'] = Variable<int>(completedPages);
+    map['target_minutes'] = Variable<int>(targetMinutes);
+    map['completed_minutes'] = Variable<int>(completedMinutes);
     map['is_completed'] = Variable<bool>(isCompleted);
     return map;
   }
@@ -4493,8 +6013,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
       syncStatus: Value(syncStatus),
       id: Value(id),
       goalDate: Value(goalDate),
+      goalType: Value(goalType),
       targetVerses: Value(targetVerses),
       completedVerses: Value(completedVerses),
+      targetPages: Value(targetPages),
+      completedPages: Value(completedPages),
+      targetMinutes: Value(targetMinutes),
+      completedMinutes: Value(completedMinutes),
       isCompleted: Value(isCompleted),
     );
   }
@@ -4513,8 +6038,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
       syncStatus: serializer.fromJson<String>(json['syncStatus']),
       id: serializer.fromJson<int>(json['id']),
       goalDate: serializer.fromJson<DateTime>(json['goalDate']),
+      goalType: serializer.fromJson<String>(json['goalType']),
       targetVerses: serializer.fromJson<int>(json['targetVerses']),
       completedVerses: serializer.fromJson<int>(json['completedVerses']),
+      targetPages: serializer.fromJson<int>(json['targetPages']),
+      completedPages: serializer.fromJson<int>(json['completedPages']),
+      targetMinutes: serializer.fromJson<int>(json['targetMinutes']),
+      completedMinutes: serializer.fromJson<int>(json['completedMinutes']),
       isCompleted: serializer.fromJson<bool>(json['isCompleted']),
     );
   }
@@ -4530,8 +6060,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
       'syncStatus': serializer.toJson<String>(syncStatus),
       'id': serializer.toJson<int>(id),
       'goalDate': serializer.toJson<DateTime>(goalDate),
+      'goalType': serializer.toJson<String>(goalType),
       'targetVerses': serializer.toJson<int>(targetVerses),
       'completedVerses': serializer.toJson<int>(completedVerses),
+      'targetPages': serializer.toJson<int>(targetPages),
+      'completedPages': serializer.toJson<int>(completedPages),
+      'targetMinutes': serializer.toJson<int>(targetMinutes),
+      'completedMinutes': serializer.toJson<int>(completedMinutes),
       'isCompleted': serializer.toJson<bool>(isCompleted),
     };
   }
@@ -4545,8 +6080,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
     String? syncStatus,
     int? id,
     DateTime? goalDate,
+    String? goalType,
     int? targetVerses,
     int? completedVerses,
+    int? targetPages,
+    int? completedPages,
+    int? targetMinutes,
+    int? completedMinutes,
     bool? isCompleted,
   }) => DailyGoal(
     createdAt: createdAt ?? this.createdAt,
@@ -4557,8 +6097,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
     syncStatus: syncStatus ?? this.syncStatus,
     id: id ?? this.id,
     goalDate: goalDate ?? this.goalDate,
+    goalType: goalType ?? this.goalType,
     targetVerses: targetVerses ?? this.targetVerses,
     completedVerses: completedVerses ?? this.completedVerses,
+    targetPages: targetPages ?? this.targetPages,
+    completedPages: completedPages ?? this.completedPages,
+    targetMinutes: targetMinutes ?? this.targetMinutes,
+    completedMinutes: completedMinutes ?? this.completedMinutes,
     isCompleted: isCompleted ?? this.isCompleted,
   );
   DailyGoal copyWithCompanion(DailyGoalsCompanion data) {
@@ -4577,12 +6122,25 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
           : this.syncStatus,
       id: data.id.present ? data.id.value : this.id,
       goalDate: data.goalDate.present ? data.goalDate.value : this.goalDate,
+      goalType: data.goalType.present ? data.goalType.value : this.goalType,
       targetVerses: data.targetVerses.present
           ? data.targetVerses.value
           : this.targetVerses,
       completedVerses: data.completedVerses.present
           ? data.completedVerses.value
           : this.completedVerses,
+      targetPages: data.targetPages.present
+          ? data.targetPages.value
+          : this.targetPages,
+      completedPages: data.completedPages.present
+          ? data.completedPages.value
+          : this.completedPages,
+      targetMinutes: data.targetMinutes.present
+          ? data.targetMinutes.value
+          : this.targetMinutes,
+      completedMinutes: data.completedMinutes.present
+          ? data.completedMinutes.value
+          : this.completedMinutes,
       isCompleted: data.isCompleted.present
           ? data.isCompleted.value
           : this.isCompleted,
@@ -4600,8 +6158,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
           ..write('syncStatus: $syncStatus, ')
           ..write('id: $id, ')
           ..write('goalDate: $goalDate, ')
+          ..write('goalType: $goalType, ')
           ..write('targetVerses: $targetVerses, ')
           ..write('completedVerses: $completedVerses, ')
+          ..write('targetPages: $targetPages, ')
+          ..write('completedPages: $completedPages, ')
+          ..write('targetMinutes: $targetMinutes, ')
+          ..write('completedMinutes: $completedMinutes, ')
           ..write('isCompleted: $isCompleted')
           ..write(')'))
         .toString();
@@ -4617,8 +6180,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
     syncStatus,
     id,
     goalDate,
+    goalType,
     targetVerses,
     completedVerses,
+    targetPages,
+    completedPages,
+    targetMinutes,
+    completedMinutes,
     isCompleted,
   );
   @override
@@ -4633,8 +6201,13 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
           other.syncStatus == this.syncStatus &&
           other.id == this.id &&
           other.goalDate == this.goalDate &&
+          other.goalType == this.goalType &&
           other.targetVerses == this.targetVerses &&
           other.completedVerses == this.completedVerses &&
+          other.targetPages == this.targetPages &&
+          other.completedPages == this.completedPages &&
+          other.targetMinutes == this.targetMinutes &&
+          other.completedMinutes == this.completedMinutes &&
           other.isCompleted == this.isCompleted);
 }
 
@@ -4647,8 +6220,13 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
   final Value<String> syncStatus;
   final Value<int> id;
   final Value<DateTime> goalDate;
+  final Value<String> goalType;
   final Value<int> targetVerses;
   final Value<int> completedVerses;
+  final Value<int> targetPages;
+  final Value<int> completedPages;
+  final Value<int> targetMinutes;
+  final Value<int> completedMinutes;
   final Value<bool> isCompleted;
   const DailyGoalsCompanion({
     this.createdAt = const Value.absent(),
@@ -4659,8 +6237,13 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
     this.syncStatus = const Value.absent(),
     this.id = const Value.absent(),
     this.goalDate = const Value.absent(),
+    this.goalType = const Value.absent(),
     this.targetVerses = const Value.absent(),
     this.completedVerses = const Value.absent(),
+    this.targetPages = const Value.absent(),
+    this.completedPages = const Value.absent(),
+    this.targetMinutes = const Value.absent(),
+    this.completedMinutes = const Value.absent(),
     this.isCompleted = const Value.absent(),
   });
   DailyGoalsCompanion.insert({
@@ -4672,8 +6255,13 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
     this.syncStatus = const Value.absent(),
     this.id = const Value.absent(),
     required DateTime goalDate,
+    this.goalType = const Value.absent(),
     this.targetVerses = const Value.absent(),
     this.completedVerses = const Value.absent(),
+    this.targetPages = const Value.absent(),
+    this.completedPages = const Value.absent(),
+    this.targetMinutes = const Value.absent(),
+    this.completedMinutes = const Value.absent(),
     this.isCompleted = const Value.absent(),
   }) : createdAt = Value(createdAt),
        updatedAt = Value(updatedAt),
@@ -4687,8 +6275,13 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
     Expression<String>? syncStatus,
     Expression<int>? id,
     Expression<DateTime>? goalDate,
+    Expression<String>? goalType,
     Expression<int>? targetVerses,
     Expression<int>? completedVerses,
+    Expression<int>? targetPages,
+    Expression<int>? completedPages,
+    Expression<int>? targetMinutes,
+    Expression<int>? completedMinutes,
     Expression<bool>? isCompleted,
   }) {
     return RawValuesInsertable({
@@ -4700,8 +6293,13 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
       if (syncStatus != null) 'sync_status': syncStatus,
       if (id != null) 'id': id,
       if (goalDate != null) 'goal_date': goalDate,
+      if (goalType != null) 'goal_type': goalType,
       if (targetVerses != null) 'target_verses': targetVerses,
       if (completedVerses != null) 'completed_verses': completedVerses,
+      if (targetPages != null) 'target_pages': targetPages,
+      if (completedPages != null) 'completed_pages': completedPages,
+      if (targetMinutes != null) 'target_minutes': targetMinutes,
+      if (completedMinutes != null) 'completed_minutes': completedMinutes,
       if (isCompleted != null) 'is_completed': isCompleted,
     });
   }
@@ -4715,8 +6313,13 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
     Value<String>? syncStatus,
     Value<int>? id,
     Value<DateTime>? goalDate,
+    Value<String>? goalType,
     Value<int>? targetVerses,
     Value<int>? completedVerses,
+    Value<int>? targetPages,
+    Value<int>? completedPages,
+    Value<int>? targetMinutes,
+    Value<int>? completedMinutes,
     Value<bool>? isCompleted,
   }) {
     return DailyGoalsCompanion(
@@ -4728,8 +6331,13 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
       syncStatus: syncStatus ?? this.syncStatus,
       id: id ?? this.id,
       goalDate: goalDate ?? this.goalDate,
+      goalType: goalType ?? this.goalType,
       targetVerses: targetVerses ?? this.targetVerses,
       completedVerses: completedVerses ?? this.completedVerses,
+      targetPages: targetPages ?? this.targetPages,
+      completedPages: completedPages ?? this.completedPages,
+      targetMinutes: targetMinutes ?? this.targetMinutes,
+      completedMinutes: completedMinutes ?? this.completedMinutes,
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }
@@ -4761,11 +6369,26 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
     if (goalDate.present) {
       map['goal_date'] = Variable<DateTime>(goalDate.value);
     }
+    if (goalType.present) {
+      map['goal_type'] = Variable<String>(goalType.value);
+    }
     if (targetVerses.present) {
       map['target_verses'] = Variable<int>(targetVerses.value);
     }
     if (completedVerses.present) {
       map['completed_verses'] = Variable<int>(completedVerses.value);
+    }
+    if (targetPages.present) {
+      map['target_pages'] = Variable<int>(targetPages.value);
+    }
+    if (completedPages.present) {
+      map['completed_pages'] = Variable<int>(completedPages.value);
+    }
+    if (targetMinutes.present) {
+      map['target_minutes'] = Variable<int>(targetMinutes.value);
+    }
+    if (completedMinutes.present) {
+      map['completed_minutes'] = Variable<int>(completedMinutes.value);
     }
     if (isCompleted.present) {
       map['is_completed'] = Variable<bool>(isCompleted.value);
@@ -4784,8 +6407,13 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
           ..write('syncStatus: $syncStatus, ')
           ..write('id: $id, ')
           ..write('goalDate: $goalDate, ')
+          ..write('goalType: $goalType, ')
           ..write('targetVerses: $targetVerses, ')
           ..write('completedVerses: $completedVerses, ')
+          ..write('targetPages: $targetPages, ')
+          ..write('completedPages: $completedPages, ')
+          ..write('targetMinutes: $targetMinutes, ')
+          ..write('completedMinutes: $completedMinutes, ')
           ..write('isCompleted: $isCompleted')
           ..write(')'))
         .toString();
@@ -4904,6 +6532,21 @@ class $StreakRecordsTable extends StreakRecords
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _isMissedMeta = const VerificationMeta(
+    'isMissed',
+  );
+  @override
+  late final GeneratedColumn<bool> isMissed = GeneratedColumn<bool>(
+    'is_missed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_missed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     createdAt,
@@ -4915,6 +6558,7 @@ class $StreakRecordsTable extends StreakRecords
     id,
     streakDate,
     isCompleted,
+    isMissed,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4991,6 +6635,12 @@ class $StreakRecordsTable extends StreakRecords
         ),
       );
     }
+    if (data.containsKey('is_missed')) {
+      context.handle(
+        _isMissedMeta,
+        isMissed.isAcceptableOrUnknown(data['is_missed']!, _isMissedMeta),
+      );
+    }
     return context;
   }
 
@@ -5036,6 +6686,10 @@ class $StreakRecordsTable extends StreakRecords
         DriftSqlType.bool,
         data['${effectivePrefix}is_completed'],
       )!,
+      isMissed: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_missed'],
+      )!,
     );
   }
 
@@ -5055,6 +6709,7 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
   final int id;
   final DateTime streakDate;
   final bool isCompleted;
+  final bool isMissed;
   const StreakRecord({
     required this.createdAt,
     required this.updatedAt,
@@ -5065,6 +6720,7 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
     required this.id,
     required this.streakDate,
     required this.isCompleted,
+    required this.isMissed,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5084,6 +6740,7 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
     map['id'] = Variable<int>(id);
     map['streak_date'] = Variable<DateTime>(streakDate);
     map['is_completed'] = Variable<bool>(isCompleted);
+    map['is_missed'] = Variable<bool>(isMissed);
     return map;
   }
 
@@ -5104,6 +6761,7 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
       id: Value(id),
       streakDate: Value(streakDate),
       isCompleted: Value(isCompleted),
+      isMissed: Value(isMissed),
     );
   }
 
@@ -5122,6 +6780,7 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
       id: serializer.fromJson<int>(json['id']),
       streakDate: serializer.fromJson<DateTime>(json['streakDate']),
       isCompleted: serializer.fromJson<bool>(json['isCompleted']),
+      isMissed: serializer.fromJson<bool>(json['isMissed']),
     );
   }
   @override
@@ -5137,6 +6796,7 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
       'id': serializer.toJson<int>(id),
       'streakDate': serializer.toJson<DateTime>(streakDate),
       'isCompleted': serializer.toJson<bool>(isCompleted),
+      'isMissed': serializer.toJson<bool>(isMissed),
     };
   }
 
@@ -5150,6 +6810,7 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
     int? id,
     DateTime? streakDate,
     bool? isCompleted,
+    bool? isMissed,
   }) => StreakRecord(
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
@@ -5160,6 +6821,7 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
     id: id ?? this.id,
     streakDate: streakDate ?? this.streakDate,
     isCompleted: isCompleted ?? this.isCompleted,
+    isMissed: isMissed ?? this.isMissed,
   );
   StreakRecord copyWithCompanion(StreakRecordsCompanion data) {
     return StreakRecord(
@@ -5182,6 +6844,7 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
       isCompleted: data.isCompleted.present
           ? data.isCompleted.value
           : this.isCompleted,
+      isMissed: data.isMissed.present ? data.isMissed.value : this.isMissed,
     );
   }
 
@@ -5196,7 +6859,8 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
           ..write('syncStatus: $syncStatus, ')
           ..write('id: $id, ')
           ..write('streakDate: $streakDate, ')
-          ..write('isCompleted: $isCompleted')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('isMissed: $isMissed')
           ..write(')'))
         .toString();
   }
@@ -5212,6 +6876,7 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
     id,
     streakDate,
     isCompleted,
+    isMissed,
   );
   @override
   bool operator ==(Object other) =>
@@ -5225,7 +6890,8 @@ class StreakRecord extends DataClass implements Insertable<StreakRecord> {
           other.syncStatus == this.syncStatus &&
           other.id == this.id &&
           other.streakDate == this.streakDate &&
-          other.isCompleted == this.isCompleted);
+          other.isCompleted == this.isCompleted &&
+          other.isMissed == this.isMissed);
 }
 
 class StreakRecordsCompanion extends UpdateCompanion<StreakRecord> {
@@ -5238,6 +6904,7 @@ class StreakRecordsCompanion extends UpdateCompanion<StreakRecord> {
   final Value<int> id;
   final Value<DateTime> streakDate;
   final Value<bool> isCompleted;
+  final Value<bool> isMissed;
   const StreakRecordsCompanion({
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -5248,6 +6915,7 @@ class StreakRecordsCompanion extends UpdateCompanion<StreakRecord> {
     this.id = const Value.absent(),
     this.streakDate = const Value.absent(),
     this.isCompleted = const Value.absent(),
+    this.isMissed = const Value.absent(),
   });
   StreakRecordsCompanion.insert({
     required DateTime createdAt,
@@ -5259,6 +6927,7 @@ class StreakRecordsCompanion extends UpdateCompanion<StreakRecord> {
     this.id = const Value.absent(),
     required DateTime streakDate,
     this.isCompleted = const Value.absent(),
+    this.isMissed = const Value.absent(),
   }) : createdAt = Value(createdAt),
        updatedAt = Value(updatedAt),
        streakDate = Value(streakDate);
@@ -5272,6 +6941,7 @@ class StreakRecordsCompanion extends UpdateCompanion<StreakRecord> {
     Expression<int>? id,
     Expression<DateTime>? streakDate,
     Expression<bool>? isCompleted,
+    Expression<bool>? isMissed,
   }) {
     return RawValuesInsertable({
       if (createdAt != null) 'created_at': createdAt,
@@ -5283,6 +6953,7 @@ class StreakRecordsCompanion extends UpdateCompanion<StreakRecord> {
       if (id != null) 'id': id,
       if (streakDate != null) 'streak_date': streakDate,
       if (isCompleted != null) 'is_completed': isCompleted,
+      if (isMissed != null) 'is_missed': isMissed,
     });
   }
 
@@ -5296,6 +6967,7 @@ class StreakRecordsCompanion extends UpdateCompanion<StreakRecord> {
     Value<int>? id,
     Value<DateTime>? streakDate,
     Value<bool>? isCompleted,
+    Value<bool>? isMissed,
   }) {
     return StreakRecordsCompanion(
       createdAt: createdAt ?? this.createdAt,
@@ -5307,6 +6979,7 @@ class StreakRecordsCompanion extends UpdateCompanion<StreakRecord> {
       id: id ?? this.id,
       streakDate: streakDate ?? this.streakDate,
       isCompleted: isCompleted ?? this.isCompleted,
+      isMissed: isMissed ?? this.isMissed,
     );
   }
 
@@ -5340,6 +7013,9 @@ class StreakRecordsCompanion extends UpdateCompanion<StreakRecord> {
     if (isCompleted.present) {
       map['is_completed'] = Variable<bool>(isCompleted.value);
     }
+    if (isMissed.present) {
+      map['is_missed'] = Variable<bool>(isMissed.value);
+    }
     return map;
   }
 
@@ -5354,7 +7030,8 @@ class StreakRecordsCompanion extends UpdateCompanion<StreakRecord> {
           ..write('syncStatus: $syncStatus, ')
           ..write('id: $id, ')
           ..write('streakDate: $streakDate, ')
-          ..write('isCompleted: $isCompleted')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('isMissed: $isMissed')
           ..write(')'))
         .toString();
   }
@@ -5457,6 +7134,18 @@ class $ReflectionNotesTable extends ReflectionNotes
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _sourceTypeMeta = const VerificationMeta(
+    'sourceType',
+  );
+  @override
+  late final GeneratedColumn<String> sourceType = GeneratedColumn<String>(
+    'source_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('quran_ayah'),
+  );
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
@@ -5485,6 +7174,7 @@ class $ReflectionNotesTable extends ReflectionNotes
     syncStatus,
     id,
     verseKey,
+    sourceType,
     title,
     body,
   ];
@@ -5552,6 +7242,12 @@ class $ReflectionNotesTable extends ReflectionNotes
         verseKey.isAcceptableOrUnknown(data['verse_key']!, _verseKeyMeta),
       );
     }
+    if (data.containsKey('source_type')) {
+      context.handle(
+        _sourceTypeMeta,
+        sourceType.isAcceptableOrUnknown(data['source_type']!, _sourceTypeMeta),
+      );
+    }
     if (data.containsKey('title')) {
       context.handle(
         _titleMeta,
@@ -5607,6 +7303,10 @@ class $ReflectionNotesTable extends ReflectionNotes
         DriftSqlType.string,
         data['${effectivePrefix}verse_key'],
       ),
+      sourceType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_type'],
+      )!,
       title: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}title'],
@@ -5633,6 +7333,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
   final String syncStatus;
   final int id;
   final String? verseKey;
+  final String sourceType;
   final String? title;
   final String body;
   const ReflectionNote({
@@ -5644,6 +7345,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
     required this.syncStatus,
     required this.id,
     this.verseKey,
+    required this.sourceType,
     this.title,
     required this.body,
   });
@@ -5666,6 +7368,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
     if (!nullToAbsent || verseKey != null) {
       map['verse_key'] = Variable<String>(verseKey);
     }
+    map['source_type'] = Variable<String>(sourceType);
     if (!nullToAbsent || title != null) {
       map['title'] = Variable<String>(title);
     }
@@ -5691,6 +7394,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
       verseKey: verseKey == null && nullToAbsent
           ? const Value.absent()
           : Value(verseKey),
+      sourceType: Value(sourceType),
       title: title == null && nullToAbsent
           ? const Value.absent()
           : Value(title),
@@ -5712,6 +7416,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
       syncStatus: serializer.fromJson<String>(json['syncStatus']),
       id: serializer.fromJson<int>(json['id']),
       verseKey: serializer.fromJson<String?>(json['verseKey']),
+      sourceType: serializer.fromJson<String>(json['sourceType']),
       title: serializer.fromJson<String?>(json['title']),
       body: serializer.fromJson<String>(json['body']),
     );
@@ -5728,6 +7433,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
       'syncStatus': serializer.toJson<String>(syncStatus),
       'id': serializer.toJson<int>(id),
       'verseKey': serializer.toJson<String?>(verseKey),
+      'sourceType': serializer.toJson<String>(sourceType),
       'title': serializer.toJson<String?>(title),
       'body': serializer.toJson<String>(body),
     };
@@ -5742,6 +7448,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
     String? syncStatus,
     int? id,
     Value<String?> verseKey = const Value.absent(),
+    String? sourceType,
     Value<String?> title = const Value.absent(),
     String? body,
   }) => ReflectionNote(
@@ -5753,6 +7460,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
     syncStatus: syncStatus ?? this.syncStatus,
     id: id ?? this.id,
     verseKey: verseKey.present ? verseKey.value : this.verseKey,
+    sourceType: sourceType ?? this.sourceType,
     title: title.present ? title.value : this.title,
     body: body ?? this.body,
   );
@@ -5772,6 +7480,9 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
           : this.syncStatus,
       id: data.id.present ? data.id.value : this.id,
       verseKey: data.verseKey.present ? data.verseKey.value : this.verseKey,
+      sourceType: data.sourceType.present
+          ? data.sourceType.value
+          : this.sourceType,
       title: data.title.present ? data.title.value : this.title,
       body: data.body.present ? data.body.value : this.body,
     );
@@ -5788,6 +7499,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
           ..write('syncStatus: $syncStatus, ')
           ..write('id: $id, ')
           ..write('verseKey: $verseKey, ')
+          ..write('sourceType: $sourceType, ')
           ..write('title: $title, ')
           ..write('body: $body')
           ..write(')'))
@@ -5804,6 +7516,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
     syncStatus,
     id,
     verseKey,
+    sourceType,
     title,
     body,
   );
@@ -5819,6 +7532,7 @@ class ReflectionNote extends DataClass implements Insertable<ReflectionNote> {
           other.syncStatus == this.syncStatus &&
           other.id == this.id &&
           other.verseKey == this.verseKey &&
+          other.sourceType == this.sourceType &&
           other.title == this.title &&
           other.body == this.body);
 }
@@ -5832,6 +7546,7 @@ class ReflectionNotesCompanion extends UpdateCompanion<ReflectionNote> {
   final Value<String> syncStatus;
   final Value<int> id;
   final Value<String?> verseKey;
+  final Value<String> sourceType;
   final Value<String?> title;
   final Value<String> body;
   const ReflectionNotesCompanion({
@@ -5843,6 +7558,7 @@ class ReflectionNotesCompanion extends UpdateCompanion<ReflectionNote> {
     this.syncStatus = const Value.absent(),
     this.id = const Value.absent(),
     this.verseKey = const Value.absent(),
+    this.sourceType = const Value.absent(),
     this.title = const Value.absent(),
     this.body = const Value.absent(),
   });
@@ -5855,6 +7571,7 @@ class ReflectionNotesCompanion extends UpdateCompanion<ReflectionNote> {
     this.syncStatus = const Value.absent(),
     this.id = const Value.absent(),
     this.verseKey = const Value.absent(),
+    this.sourceType = const Value.absent(),
     this.title = const Value.absent(),
     required String body,
   }) : createdAt = Value(createdAt),
@@ -5869,6 +7586,7 @@ class ReflectionNotesCompanion extends UpdateCompanion<ReflectionNote> {
     Expression<String>? syncStatus,
     Expression<int>? id,
     Expression<String>? verseKey,
+    Expression<String>? sourceType,
     Expression<String>? title,
     Expression<String>? body,
   }) {
@@ -5881,6 +7599,7 @@ class ReflectionNotesCompanion extends UpdateCompanion<ReflectionNote> {
       if (syncStatus != null) 'sync_status': syncStatus,
       if (id != null) 'id': id,
       if (verseKey != null) 'verse_key': verseKey,
+      if (sourceType != null) 'source_type': sourceType,
       if (title != null) 'title': title,
       if (body != null) 'body': body,
     });
@@ -5895,6 +7614,7 @@ class ReflectionNotesCompanion extends UpdateCompanion<ReflectionNote> {
     Value<String>? syncStatus,
     Value<int>? id,
     Value<String?>? verseKey,
+    Value<String>? sourceType,
     Value<String?>? title,
     Value<String>? body,
   }) {
@@ -5907,6 +7627,7 @@ class ReflectionNotesCompanion extends UpdateCompanion<ReflectionNote> {
       syncStatus: syncStatus ?? this.syncStatus,
       id: id ?? this.id,
       verseKey: verseKey ?? this.verseKey,
+      sourceType: sourceType ?? this.sourceType,
       title: title ?? this.title,
       body: body ?? this.body,
     );
@@ -5939,6 +7660,9 @@ class ReflectionNotesCompanion extends UpdateCompanion<ReflectionNote> {
     if (verseKey.present) {
       map['verse_key'] = Variable<String>(verseKey.value);
     }
+    if (sourceType.present) {
+      map['source_type'] = Variable<String>(sourceType.value);
+    }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
     }
@@ -5959,6 +7683,7 @@ class ReflectionNotesCompanion extends UpdateCompanion<ReflectionNote> {
           ..write('syncStatus: $syncStatus, ')
           ..write('id: $id, ')
           ..write('verseKey: $verseKey, ')
+          ..write('sourceType: $sourceType, ')
           ..write('title: $title, ')
           ..write('body: $body')
           ..write(')'))
@@ -7150,6 +8875,17 @@ class $AdhkarItemsTable extends AdhkarItems
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _sourceReferenceMeta = const VerificationMeta(
+    'sourceReference',
+  );
+  @override
+  late final GeneratedColumn<String> sourceReference = GeneratedColumn<String>(
+    'source_reference',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     createdAt,
@@ -7161,6 +8897,7 @@ class $AdhkarItemsTable extends AdhkarItems
     textEnglish,
     repeatCount,
     source,
+    sourceReference,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -7246,6 +8983,17 @@ class $AdhkarItemsTable extends AdhkarItems
     } else if (isInserting) {
       context.missing(_sourceMeta);
     }
+    if (data.containsKey('source_reference')) {
+      context.handle(
+        _sourceReferenceMeta,
+        sourceReference.isAcceptableOrUnknown(
+          data['source_reference']!,
+          _sourceReferenceMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceReferenceMeta);
+    }
     return context;
   }
 
@@ -7291,6 +9039,10 @@ class $AdhkarItemsTable extends AdhkarItems
         DriftSqlType.string,
         data['${effectivePrefix}source'],
       )!,
+      sourceReference: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_reference'],
+      )!,
     );
   }
 
@@ -7310,6 +9062,7 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
   final String? textEnglish;
   final int repeatCount;
   final String source;
+  final String sourceReference;
   const AdhkarItem({
     required this.createdAt,
     required this.updatedAt,
@@ -7320,6 +9073,7 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
     this.textEnglish,
     required this.repeatCount,
     required this.source,
+    required this.sourceReference,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -7335,6 +9089,7 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
     }
     map['repeat_count'] = Variable<int>(repeatCount);
     map['source'] = Variable<String>(source);
+    map['source_reference'] = Variable<String>(sourceReference);
     return map;
   }
 
@@ -7351,6 +9106,7 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
           : Value(textEnglish),
       repeatCount: Value(repeatCount),
       source: Value(source),
+      sourceReference: Value(sourceReference),
     );
   }
 
@@ -7369,6 +9125,7 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
       textEnglish: serializer.fromJson<String?>(json['textEnglish']),
       repeatCount: serializer.fromJson<int>(json['repeatCount']),
       source: serializer.fromJson<String>(json['source']),
+      sourceReference: serializer.fromJson<String>(json['sourceReference']),
     );
   }
   @override
@@ -7384,6 +9141,7 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
       'textEnglish': serializer.toJson<String?>(textEnglish),
       'repeatCount': serializer.toJson<int>(repeatCount),
       'source': serializer.toJson<String>(source),
+      'sourceReference': serializer.toJson<String>(sourceReference),
     };
   }
 
@@ -7397,6 +9155,7 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
     Value<String?> textEnglish = const Value.absent(),
     int? repeatCount,
     String? source,
+    String? sourceReference,
   }) => AdhkarItem(
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
@@ -7407,6 +9166,7 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
     textEnglish: textEnglish.present ? textEnglish.value : this.textEnglish,
     repeatCount: repeatCount ?? this.repeatCount,
     source: source ?? this.source,
+    sourceReference: sourceReference ?? this.sourceReference,
   );
   AdhkarItem copyWithCompanion(AdhkarItemsCompanion data) {
     return AdhkarItem(
@@ -7427,6 +9187,9 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
           ? data.repeatCount.value
           : this.repeatCount,
       source: data.source.present ? data.source.value : this.source,
+      sourceReference: data.sourceReference.present
+          ? data.sourceReference.value
+          : this.sourceReference,
     );
   }
 
@@ -7441,7 +9204,8 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
           ..write('textArabic: $textArabic, ')
           ..write('textEnglish: $textEnglish, ')
           ..write('repeatCount: $repeatCount, ')
-          ..write('source: $source')
+          ..write('source: $source, ')
+          ..write('sourceReference: $sourceReference')
           ..write(')'))
         .toString();
   }
@@ -7457,6 +9221,7 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
     textEnglish,
     repeatCount,
     source,
+    sourceReference,
   );
   @override
   bool operator ==(Object other) =>
@@ -7470,7 +9235,8 @@ class AdhkarItem extends DataClass implements Insertable<AdhkarItem> {
           other.textArabic == this.textArabic &&
           other.textEnglish == this.textEnglish &&
           other.repeatCount == this.repeatCount &&
-          other.source == this.source);
+          other.source == this.source &&
+          other.sourceReference == this.sourceReference);
 }
 
 class AdhkarItemsCompanion extends UpdateCompanion<AdhkarItem> {
@@ -7483,6 +9249,7 @@ class AdhkarItemsCompanion extends UpdateCompanion<AdhkarItem> {
   final Value<String?> textEnglish;
   final Value<int> repeatCount;
   final Value<String> source;
+  final Value<String> sourceReference;
   const AdhkarItemsCompanion({
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -7493,6 +9260,7 @@ class AdhkarItemsCompanion extends UpdateCompanion<AdhkarItem> {
     this.textEnglish = const Value.absent(),
     this.repeatCount = const Value.absent(),
     this.source = const Value.absent(),
+    this.sourceReference = const Value.absent(),
   });
   AdhkarItemsCompanion.insert({
     required DateTime createdAt,
@@ -7504,12 +9272,14 @@ class AdhkarItemsCompanion extends UpdateCompanion<AdhkarItem> {
     this.textEnglish = const Value.absent(),
     this.repeatCount = const Value.absent(),
     required String source,
+    required String sourceReference,
   }) : createdAt = Value(createdAt),
        updatedAt = Value(updatedAt),
        itemKey = Value(itemKey),
        categoryKey = Value(categoryKey),
        textArabic = Value(textArabic),
-       source = Value(source);
+       source = Value(source),
+       sourceReference = Value(sourceReference);
   static Insertable<AdhkarItem> custom({
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
@@ -7520,6 +9290,7 @@ class AdhkarItemsCompanion extends UpdateCompanion<AdhkarItem> {
     Expression<String>? textEnglish,
     Expression<int>? repeatCount,
     Expression<String>? source,
+    Expression<String>? sourceReference,
   }) {
     return RawValuesInsertable({
       if (createdAt != null) 'created_at': createdAt,
@@ -7531,6 +9302,7 @@ class AdhkarItemsCompanion extends UpdateCompanion<AdhkarItem> {
       if (textEnglish != null) 'text_english': textEnglish,
       if (repeatCount != null) 'repeat_count': repeatCount,
       if (source != null) 'source': source,
+      if (sourceReference != null) 'source_reference': sourceReference,
     });
   }
 
@@ -7544,6 +9316,7 @@ class AdhkarItemsCompanion extends UpdateCompanion<AdhkarItem> {
     Value<String?>? textEnglish,
     Value<int>? repeatCount,
     Value<String>? source,
+    Value<String>? sourceReference,
   }) {
     return AdhkarItemsCompanion(
       createdAt: createdAt ?? this.createdAt,
@@ -7555,6 +9328,7 @@ class AdhkarItemsCompanion extends UpdateCompanion<AdhkarItem> {
       textEnglish: textEnglish ?? this.textEnglish,
       repeatCount: repeatCount ?? this.repeatCount,
       source: source ?? this.source,
+      sourceReference: sourceReference ?? this.sourceReference,
     );
   }
 
@@ -7588,6 +9362,9 @@ class AdhkarItemsCompanion extends UpdateCompanion<AdhkarItem> {
     if (source.present) {
       map['source'] = Variable<String>(source.value);
     }
+    if (sourceReference.present) {
+      map['source_reference'] = Variable<String>(sourceReference.value);
+    }
     return map;
   }
 
@@ -7602,7 +9379,8 @@ class AdhkarItemsCompanion extends UpdateCompanion<AdhkarItem> {
           ..write('textArabic: $textArabic, ')
           ..write('textEnglish: $textEnglish, ')
           ..write('repeatCount: $repeatCount, ')
-          ..write('source: $source')
+          ..write('source: $source, ')
+          ..write('sourceReference: $sourceReference')
           ..write(')'))
         .toString();
   }
@@ -11348,10 +13126,15 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TafsirCachesTable tafsirCaches = $TafsirCachesTable(this);
   late final $AudioCacheMetadataTable audioCacheMetadata =
       $AudioCacheMetadataTable(this);
+  late final $QuranRecitersCacheTable quranRecitersCache =
+      $QuranRecitersCacheTable(this);
   late final $DailyAyahHistoryTable dailyAyahHistory = $DailyAyahHistoryTable(
     this,
   );
   late final $ReadingProgressTable readingProgress = $ReadingProgressTable(
+    this,
+  );
+  late final $ReadingSessionsTable readingSessions = $ReadingSessionsTable(
     this,
   );
   late final $DailyGoalsTable dailyGoals = $DailyGoalsTable(this);
@@ -11385,8 +13168,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     quranVersesCache,
     tafsirCaches,
     audioCacheMetadata,
+    quranRecitersCache,
     dailyAyahHistory,
     readingProgress,
+    readingSessions,
     dailyGoals,
     streakRecords,
     reflectionNotes,
@@ -12835,6 +14620,274 @@ typedef $$AudioCacheMetadataTableProcessedTableManager =
       AudioCacheMetadataData,
       PrefetchHooks Function()
     >;
+typedef $$QuranRecitersCacheTableCreateCompanionBuilder =
+    QuranRecitersCacheCompanion Function({
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<int> id,
+      required String reciterId,
+      Value<String?> nameArabic,
+      Value<String?> nameEnglish,
+      Value<String?> style,
+      required String source,
+    });
+typedef $$QuranRecitersCacheTableUpdateCompanionBuilder =
+    QuranRecitersCacheCompanion Function({
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<int> id,
+      Value<String> reciterId,
+      Value<String?> nameArabic,
+      Value<String?> nameEnglish,
+      Value<String?> style,
+      Value<String> source,
+    });
+
+class $$QuranRecitersCacheTableFilterComposer
+    extends Composer<_$AppDatabase, $QuranRecitersCacheTable> {
+  $$QuranRecitersCacheTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get reciterId => $composableBuilder(
+    column: $table.reciterId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get nameArabic => $composableBuilder(
+    column: $table.nameArabic,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get nameEnglish => $composableBuilder(
+    column: $table.nameEnglish,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get style => $composableBuilder(
+    column: $table.style,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$QuranRecitersCacheTableOrderingComposer
+    extends Composer<_$AppDatabase, $QuranRecitersCacheTable> {
+  $$QuranRecitersCacheTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reciterId => $composableBuilder(
+    column: $table.reciterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get nameArabic => $composableBuilder(
+    column: $table.nameArabic,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get nameEnglish => $composableBuilder(
+    column: $table.nameEnglish,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get style => $composableBuilder(
+    column: $table.style,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$QuranRecitersCacheTableAnnotationComposer
+    extends Composer<_$AppDatabase, $QuranRecitersCacheTable> {
+  $$QuranRecitersCacheTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get reciterId =>
+      $composableBuilder(column: $table.reciterId, builder: (column) => column);
+
+  GeneratedColumn<String> get nameArabic => $composableBuilder(
+    column: $table.nameArabic,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get nameEnglish => $composableBuilder(
+    column: $table.nameEnglish,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get style =>
+      $composableBuilder(column: $table.style, builder: (column) => column);
+
+  GeneratedColumn<String> get source =>
+      $composableBuilder(column: $table.source, builder: (column) => column);
+}
+
+class $$QuranRecitersCacheTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $QuranRecitersCacheTable,
+          QuranRecitersCacheData,
+          $$QuranRecitersCacheTableFilterComposer,
+          $$QuranRecitersCacheTableOrderingComposer,
+          $$QuranRecitersCacheTableAnnotationComposer,
+          $$QuranRecitersCacheTableCreateCompanionBuilder,
+          $$QuranRecitersCacheTableUpdateCompanionBuilder,
+          (
+            QuranRecitersCacheData,
+            BaseReferences<
+              _$AppDatabase,
+              $QuranRecitersCacheTable,
+              QuranRecitersCacheData
+            >,
+          ),
+          QuranRecitersCacheData,
+          PrefetchHooks Function()
+        > {
+  $$QuranRecitersCacheTableTableManager(
+    _$AppDatabase db,
+    $QuranRecitersCacheTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$QuranRecitersCacheTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$QuranRecitersCacheTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$QuranRecitersCacheTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> id = const Value.absent(),
+                Value<String> reciterId = const Value.absent(),
+                Value<String?> nameArabic = const Value.absent(),
+                Value<String?> nameEnglish = const Value.absent(),
+                Value<String?> style = const Value.absent(),
+                Value<String> source = const Value.absent(),
+              }) => QuranRecitersCacheCompanion(
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                id: id,
+                reciterId: reciterId,
+                nameArabic: nameArabic,
+                nameEnglish: nameEnglish,
+                style: style,
+                source: source,
+              ),
+          createCompanionCallback:
+              ({
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> id = const Value.absent(),
+                required String reciterId,
+                Value<String?> nameArabic = const Value.absent(),
+                Value<String?> nameEnglish = const Value.absent(),
+                Value<String?> style = const Value.absent(),
+                required String source,
+              }) => QuranRecitersCacheCompanion.insert(
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                id: id,
+                reciterId: reciterId,
+                nameArabic: nameArabic,
+                nameEnglish: nameEnglish,
+                style: style,
+                source: source,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$QuranRecitersCacheTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $QuranRecitersCacheTable,
+      QuranRecitersCacheData,
+      $$QuranRecitersCacheTableFilterComposer,
+      $$QuranRecitersCacheTableOrderingComposer,
+      $$QuranRecitersCacheTableAnnotationComposer,
+      $$QuranRecitersCacheTableCreateCompanionBuilder,
+      $$QuranRecitersCacheTableUpdateCompanionBuilder,
+      (
+        QuranRecitersCacheData,
+        BaseReferences<
+          _$AppDatabase,
+          $QuranRecitersCacheTable,
+          QuranRecitersCacheData
+        >,
+      ),
+      QuranRecitersCacheData,
+      PrefetchHooks Function()
+    >;
 typedef $$DailyAyahHistoryTableCreateCompanionBuilder =
     DailyAyahHistoryCompanion Function({
       required DateTime createdAt,
@@ -13472,6 +15525,410 @@ typedef $$ReadingProgressTableProcessedTableManager =
       ReadingProgressData,
       PrefetchHooks Function()
     >;
+typedef $$ReadingSessionsTableCreateCompanionBuilder =
+    ReadingSessionsCompanion Function({
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<String?> firebaseId,
+      Value<String?> ownerUserId,
+      Value<String> syncStatus,
+      Value<int> id,
+      required DateTime sessionDate,
+      required DateTime startedAt,
+      Value<DateTime?> endedAt,
+      Value<int> ayahCount,
+      Value<int> pageCount,
+      Value<int> durationMinutes,
+      Value<String?> startVerseKey,
+      Value<String?> endVerseKey,
+    });
+typedef $$ReadingSessionsTableUpdateCompanionBuilder =
+    ReadingSessionsCompanion Function({
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<String?> firebaseId,
+      Value<String?> ownerUserId,
+      Value<String> syncStatus,
+      Value<int> id,
+      Value<DateTime> sessionDate,
+      Value<DateTime> startedAt,
+      Value<DateTime?> endedAt,
+      Value<int> ayahCount,
+      Value<int> pageCount,
+      Value<int> durationMinutes,
+      Value<String?> startVerseKey,
+      Value<String?> endVerseKey,
+    });
+
+class $$ReadingSessionsTableFilterComposer
+    extends Composer<_$AppDatabase, $ReadingSessionsTable> {
+  $$ReadingSessionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get firebaseId => $composableBuilder(
+    column: $table.firebaseId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get ownerUserId => $composableBuilder(
+    column: $table.ownerUserId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get syncStatus => $composableBuilder(
+    column: $table.syncStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get sessionDate => $composableBuilder(
+    column: $table.sessionDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startedAt => $composableBuilder(
+    column: $table.startedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get endedAt => $composableBuilder(
+    column: $table.endedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get ayahCount => $composableBuilder(
+    column: $table.ayahCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get pageCount => $composableBuilder(
+    column: $table.pageCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get durationMinutes => $composableBuilder(
+    column: $table.durationMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get startVerseKey => $composableBuilder(
+    column: $table.startVerseKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get endVerseKey => $composableBuilder(
+    column: $table.endVerseKey,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ReadingSessionsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ReadingSessionsTable> {
+  $$ReadingSessionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get firebaseId => $composableBuilder(
+    column: $table.firebaseId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get ownerUserId => $composableBuilder(
+    column: $table.ownerUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get syncStatus => $composableBuilder(
+    column: $table.syncStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get sessionDate => $composableBuilder(
+    column: $table.sessionDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startedAt => $composableBuilder(
+    column: $table.startedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get endedAt => $composableBuilder(
+    column: $table.endedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get ayahCount => $composableBuilder(
+    column: $table.ayahCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get pageCount => $composableBuilder(
+    column: $table.pageCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get durationMinutes => $composableBuilder(
+    column: $table.durationMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get startVerseKey => $composableBuilder(
+    column: $table.startVerseKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get endVerseKey => $composableBuilder(
+    column: $table.endVerseKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ReadingSessionsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ReadingSessionsTable> {
+  $$ReadingSessionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get firebaseId => $composableBuilder(
+    column: $table.firebaseId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get ownerUserId => $composableBuilder(
+    column: $table.ownerUserId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get syncStatus => $composableBuilder(
+    column: $table.syncStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get sessionDate => $composableBuilder(
+    column: $table.sessionDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get startedAt =>
+      $composableBuilder(column: $table.startedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endedAt =>
+      $composableBuilder(column: $table.endedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get ayahCount =>
+      $composableBuilder(column: $table.ayahCount, builder: (column) => column);
+
+  GeneratedColumn<int> get pageCount =>
+      $composableBuilder(column: $table.pageCount, builder: (column) => column);
+
+  GeneratedColumn<int> get durationMinutes => $composableBuilder(
+    column: $table.durationMinutes,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get startVerseKey => $composableBuilder(
+    column: $table.startVerseKey,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get endVerseKey => $composableBuilder(
+    column: $table.endVerseKey,
+    builder: (column) => column,
+  );
+}
+
+class $$ReadingSessionsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ReadingSessionsTable,
+          ReadingSession,
+          $$ReadingSessionsTableFilterComposer,
+          $$ReadingSessionsTableOrderingComposer,
+          $$ReadingSessionsTableAnnotationComposer,
+          $$ReadingSessionsTableCreateCompanionBuilder,
+          $$ReadingSessionsTableUpdateCompanionBuilder,
+          (
+            ReadingSession,
+            BaseReferences<
+              _$AppDatabase,
+              $ReadingSessionsTable,
+              ReadingSession
+            >,
+          ),
+          ReadingSession,
+          PrefetchHooks Function()
+        > {
+  $$ReadingSessionsTableTableManager(
+    _$AppDatabase db,
+    $ReadingSessionsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ReadingSessionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ReadingSessionsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ReadingSessionsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<String?> firebaseId = const Value.absent(),
+                Value<String?> ownerUserId = const Value.absent(),
+                Value<String> syncStatus = const Value.absent(),
+                Value<int> id = const Value.absent(),
+                Value<DateTime> sessionDate = const Value.absent(),
+                Value<DateTime> startedAt = const Value.absent(),
+                Value<DateTime?> endedAt = const Value.absent(),
+                Value<int> ayahCount = const Value.absent(),
+                Value<int> pageCount = const Value.absent(),
+                Value<int> durationMinutes = const Value.absent(),
+                Value<String?> startVerseKey = const Value.absent(),
+                Value<String?> endVerseKey = const Value.absent(),
+              }) => ReadingSessionsCompanion(
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                firebaseId: firebaseId,
+                ownerUserId: ownerUserId,
+                syncStatus: syncStatus,
+                id: id,
+                sessionDate: sessionDate,
+                startedAt: startedAt,
+                endedAt: endedAt,
+                ayahCount: ayahCount,
+                pageCount: pageCount,
+                durationMinutes: durationMinutes,
+                startVerseKey: startVerseKey,
+                endVerseKey: endVerseKey,
+              ),
+          createCompanionCallback:
+              ({
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<String?> firebaseId = const Value.absent(),
+                Value<String?> ownerUserId = const Value.absent(),
+                Value<String> syncStatus = const Value.absent(),
+                Value<int> id = const Value.absent(),
+                required DateTime sessionDate,
+                required DateTime startedAt,
+                Value<DateTime?> endedAt = const Value.absent(),
+                Value<int> ayahCount = const Value.absent(),
+                Value<int> pageCount = const Value.absent(),
+                Value<int> durationMinutes = const Value.absent(),
+                Value<String?> startVerseKey = const Value.absent(),
+                Value<String?> endVerseKey = const Value.absent(),
+              }) => ReadingSessionsCompanion.insert(
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                firebaseId: firebaseId,
+                ownerUserId: ownerUserId,
+                syncStatus: syncStatus,
+                id: id,
+                sessionDate: sessionDate,
+                startedAt: startedAt,
+                endedAt: endedAt,
+                ayahCount: ayahCount,
+                pageCount: pageCount,
+                durationMinutes: durationMinutes,
+                startVerseKey: startVerseKey,
+                endVerseKey: endVerseKey,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ReadingSessionsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ReadingSessionsTable,
+      ReadingSession,
+      $$ReadingSessionsTableFilterComposer,
+      $$ReadingSessionsTableOrderingComposer,
+      $$ReadingSessionsTableAnnotationComposer,
+      $$ReadingSessionsTableCreateCompanionBuilder,
+      $$ReadingSessionsTableUpdateCompanionBuilder,
+      (
+        ReadingSession,
+        BaseReferences<_$AppDatabase, $ReadingSessionsTable, ReadingSession>,
+      ),
+      ReadingSession,
+      PrefetchHooks Function()
+    >;
 typedef $$DailyGoalsTableCreateCompanionBuilder =
     DailyGoalsCompanion Function({
       required DateTime createdAt,
@@ -13482,8 +15939,13 @@ typedef $$DailyGoalsTableCreateCompanionBuilder =
       Value<String> syncStatus,
       Value<int> id,
       required DateTime goalDate,
+      Value<String> goalType,
       Value<int> targetVerses,
       Value<int> completedVerses,
+      Value<int> targetPages,
+      Value<int> completedPages,
+      Value<int> targetMinutes,
+      Value<int> completedMinutes,
       Value<bool> isCompleted,
     });
 typedef $$DailyGoalsTableUpdateCompanionBuilder =
@@ -13496,8 +15958,13 @@ typedef $$DailyGoalsTableUpdateCompanionBuilder =
       Value<String> syncStatus,
       Value<int> id,
       Value<DateTime> goalDate,
+      Value<String> goalType,
       Value<int> targetVerses,
       Value<int> completedVerses,
+      Value<int> targetPages,
+      Value<int> completedPages,
+      Value<int> targetMinutes,
+      Value<int> completedMinutes,
       Value<bool> isCompleted,
     });
 
@@ -13550,6 +16017,11 @@ class $$DailyGoalsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get goalType => $composableBuilder(
+    column: $table.goalType,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<int> get targetVerses => $composableBuilder(
     column: $table.targetVerses,
     builder: (column) => ColumnFilters(column),
@@ -13557,6 +16029,26 @@ class $$DailyGoalsTableFilterComposer
 
   ColumnFilters<int> get completedVerses => $composableBuilder(
     column: $table.completedVerses,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get targetPages => $composableBuilder(
+    column: $table.targetPages,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get completedPages => $composableBuilder(
+    column: $table.completedPages,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get targetMinutes => $composableBuilder(
+    column: $table.targetMinutes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get completedMinutes => $composableBuilder(
+    column: $table.completedMinutes,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -13615,6 +16107,11 @@ class $$DailyGoalsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get goalType => $composableBuilder(
+    column: $table.goalType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get targetVerses => $composableBuilder(
     column: $table.targetVerses,
     builder: (column) => ColumnOrderings(column),
@@ -13622,6 +16119,26 @@ class $$DailyGoalsTableOrderingComposer
 
   ColumnOrderings<int> get completedVerses => $composableBuilder(
     column: $table.completedVerses,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get targetPages => $composableBuilder(
+    column: $table.targetPages,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get completedPages => $composableBuilder(
+    column: $table.completedPages,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get targetMinutes => $composableBuilder(
+    column: $table.targetMinutes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get completedMinutes => $composableBuilder(
+    column: $table.completedMinutes,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -13670,6 +16187,9 @@ class $$DailyGoalsTableAnnotationComposer
   GeneratedColumn<DateTime> get goalDate =>
       $composableBuilder(column: $table.goalDate, builder: (column) => column);
 
+  GeneratedColumn<String> get goalType =>
+      $composableBuilder(column: $table.goalType, builder: (column) => column);
+
   GeneratedColumn<int> get targetVerses => $composableBuilder(
     column: $table.targetVerses,
     builder: (column) => column,
@@ -13677,6 +16197,26 @@ class $$DailyGoalsTableAnnotationComposer
 
   GeneratedColumn<int> get completedVerses => $composableBuilder(
     column: $table.completedVerses,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get targetPages => $composableBuilder(
+    column: $table.targetPages,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get completedPages => $composableBuilder(
+    column: $table.completedPages,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get targetMinutes => $composableBuilder(
+    column: $table.targetMinutes,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get completedMinutes => $composableBuilder(
+    column: $table.completedMinutes,
     builder: (column) => column,
   );
 
@@ -13725,8 +16265,13 @@ class $$DailyGoalsTableTableManager
                 Value<String> syncStatus = const Value.absent(),
                 Value<int> id = const Value.absent(),
                 Value<DateTime> goalDate = const Value.absent(),
+                Value<String> goalType = const Value.absent(),
                 Value<int> targetVerses = const Value.absent(),
                 Value<int> completedVerses = const Value.absent(),
+                Value<int> targetPages = const Value.absent(),
+                Value<int> completedPages = const Value.absent(),
+                Value<int> targetMinutes = const Value.absent(),
+                Value<int> completedMinutes = const Value.absent(),
                 Value<bool> isCompleted = const Value.absent(),
               }) => DailyGoalsCompanion(
                 createdAt: createdAt,
@@ -13737,8 +16282,13 @@ class $$DailyGoalsTableTableManager
                 syncStatus: syncStatus,
                 id: id,
                 goalDate: goalDate,
+                goalType: goalType,
                 targetVerses: targetVerses,
                 completedVerses: completedVerses,
+                targetPages: targetPages,
+                completedPages: completedPages,
+                targetMinutes: targetMinutes,
+                completedMinutes: completedMinutes,
                 isCompleted: isCompleted,
               ),
           createCompanionCallback:
@@ -13751,8 +16301,13 @@ class $$DailyGoalsTableTableManager
                 Value<String> syncStatus = const Value.absent(),
                 Value<int> id = const Value.absent(),
                 required DateTime goalDate,
+                Value<String> goalType = const Value.absent(),
                 Value<int> targetVerses = const Value.absent(),
                 Value<int> completedVerses = const Value.absent(),
+                Value<int> targetPages = const Value.absent(),
+                Value<int> completedPages = const Value.absent(),
+                Value<int> targetMinutes = const Value.absent(),
+                Value<int> completedMinutes = const Value.absent(),
                 Value<bool> isCompleted = const Value.absent(),
               }) => DailyGoalsCompanion.insert(
                 createdAt: createdAt,
@@ -13763,8 +16318,13 @@ class $$DailyGoalsTableTableManager
                 syncStatus: syncStatus,
                 id: id,
                 goalDate: goalDate,
+                goalType: goalType,
                 targetVerses: targetVerses,
                 completedVerses: completedVerses,
+                targetPages: targetPages,
+                completedPages: completedPages,
+                targetMinutes: targetMinutes,
+                completedMinutes: completedMinutes,
                 isCompleted: isCompleted,
               ),
           withReferenceMapper: (p0) => p0
@@ -13800,6 +16360,7 @@ typedef $$StreakRecordsTableCreateCompanionBuilder =
       Value<int> id,
       required DateTime streakDate,
       Value<bool> isCompleted,
+      Value<bool> isMissed,
     });
 typedef $$StreakRecordsTableUpdateCompanionBuilder =
     StreakRecordsCompanion Function({
@@ -13812,6 +16373,7 @@ typedef $$StreakRecordsTableUpdateCompanionBuilder =
       Value<int> id,
       Value<DateTime> streakDate,
       Value<bool> isCompleted,
+      Value<bool> isMissed,
     });
 
 class $$StreakRecordsTableFilterComposer
@@ -13865,6 +16427,11 @@ class $$StreakRecordsTableFilterComposer
 
   ColumnFilters<bool> get isCompleted => $composableBuilder(
     column: $table.isCompleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isMissed => $composableBuilder(
+    column: $table.isMissed,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -13922,6 +16489,11 @@ class $$StreakRecordsTableOrderingComposer
     column: $table.isCompleted,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isMissed => $composableBuilder(
+    column: $table.isMissed,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$StreakRecordsTableAnnotationComposer
@@ -13969,6 +16541,9 @@ class $$StreakRecordsTableAnnotationComposer
     column: $table.isCompleted,
     builder: (column) => column,
   );
+
+  GeneratedColumn<bool> get isMissed =>
+      $composableBuilder(column: $table.isMissed, builder: (column) => column);
 }
 
 class $$StreakRecordsTableTableManager
@@ -14011,6 +16586,7 @@ class $$StreakRecordsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<DateTime> streakDate = const Value.absent(),
                 Value<bool> isCompleted = const Value.absent(),
+                Value<bool> isMissed = const Value.absent(),
               }) => StreakRecordsCompanion(
                 createdAt: createdAt,
                 updatedAt: updatedAt,
@@ -14021,6 +16597,7 @@ class $$StreakRecordsTableTableManager
                 id: id,
                 streakDate: streakDate,
                 isCompleted: isCompleted,
+                isMissed: isMissed,
               ),
           createCompanionCallback:
               ({
@@ -14033,6 +16610,7 @@ class $$StreakRecordsTableTableManager
                 Value<int> id = const Value.absent(),
                 required DateTime streakDate,
                 Value<bool> isCompleted = const Value.absent(),
+                Value<bool> isMissed = const Value.absent(),
               }) => StreakRecordsCompanion.insert(
                 createdAt: createdAt,
                 updatedAt: updatedAt,
@@ -14043,6 +16621,7 @@ class $$StreakRecordsTableTableManager
                 id: id,
                 streakDate: streakDate,
                 isCompleted: isCompleted,
+                isMissed: isMissed,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
@@ -14079,6 +16658,7 @@ typedef $$ReflectionNotesTableCreateCompanionBuilder =
       Value<String> syncStatus,
       Value<int> id,
       Value<String?> verseKey,
+      Value<String> sourceType,
       Value<String?> title,
       required String body,
     });
@@ -14092,6 +16672,7 @@ typedef $$ReflectionNotesTableUpdateCompanionBuilder =
       Value<String> syncStatus,
       Value<int> id,
       Value<String?> verseKey,
+      Value<String> sourceType,
       Value<String?> title,
       Value<String> body,
     });
@@ -14142,6 +16723,11 @@ class $$ReflectionNotesTableFilterComposer
 
   ColumnFilters<String> get verseKey => $composableBuilder(
     column: $table.verseKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceType => $composableBuilder(
+    column: $table.sourceType,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -14205,6 +16791,11 @@ class $$ReflectionNotesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get sourceType => $composableBuilder(
+    column: $table.sourceType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get title => $composableBuilder(
     column: $table.title,
     builder: (column) => ColumnOrderings(column),
@@ -14254,6 +16845,11 @@ class $$ReflectionNotesTableAnnotationComposer
 
   GeneratedColumn<String> get verseKey =>
       $composableBuilder(column: $table.verseKey, builder: (column) => column);
+
+  GeneratedColumn<String> get sourceType => $composableBuilder(
+    column: $table.sourceType,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get title =>
       $composableBuilder(column: $table.title, builder: (column) => column);
@@ -14307,6 +16903,7 @@ class $$ReflectionNotesTableTableManager
                 Value<String> syncStatus = const Value.absent(),
                 Value<int> id = const Value.absent(),
                 Value<String?> verseKey = const Value.absent(),
+                Value<String> sourceType = const Value.absent(),
                 Value<String?> title = const Value.absent(),
                 Value<String> body = const Value.absent(),
               }) => ReflectionNotesCompanion(
@@ -14318,6 +16915,7 @@ class $$ReflectionNotesTableTableManager
                 syncStatus: syncStatus,
                 id: id,
                 verseKey: verseKey,
+                sourceType: sourceType,
                 title: title,
                 body: body,
               ),
@@ -14331,6 +16929,7 @@ class $$ReflectionNotesTableTableManager
                 Value<String> syncStatus = const Value.absent(),
                 Value<int> id = const Value.absent(),
                 Value<String?> verseKey = const Value.absent(),
+                Value<String> sourceType = const Value.absent(),
                 Value<String?> title = const Value.absent(),
                 required String body,
               }) => ReflectionNotesCompanion.insert(
@@ -14342,6 +16941,7 @@ class $$ReflectionNotesTableTableManager
                 syncStatus: syncStatus,
                 id: id,
                 verseKey: verseKey,
+                sourceType: sourceType,
                 title: title,
                 body: body,
               ),
@@ -14933,6 +17533,7 @@ typedef $$AdhkarItemsTableCreateCompanionBuilder =
       Value<String?> textEnglish,
       Value<int> repeatCount,
       required String source,
+      required String sourceReference,
     });
 typedef $$AdhkarItemsTableUpdateCompanionBuilder =
     AdhkarItemsCompanion Function({
@@ -14945,6 +17546,7 @@ typedef $$AdhkarItemsTableUpdateCompanionBuilder =
       Value<String?> textEnglish,
       Value<int> repeatCount,
       Value<String> source,
+      Value<String> sourceReference,
     });
 
 class $$AdhkarItemsTableFilterComposer
@@ -14998,6 +17600,11 @@ class $$AdhkarItemsTableFilterComposer
 
   ColumnFilters<String> get source => $composableBuilder(
     column: $table.source,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceReference => $composableBuilder(
+    column: $table.sourceReference,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -15055,6 +17662,11 @@ class $$AdhkarItemsTableOrderingComposer
     column: $table.source,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get sourceReference => $composableBuilder(
+    column: $table.sourceReference,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$AdhkarItemsTableAnnotationComposer
@@ -15100,6 +17712,11 @@ class $$AdhkarItemsTableAnnotationComposer
 
   GeneratedColumn<String> get source =>
       $composableBuilder(column: $table.source, builder: (column) => column);
+
+  GeneratedColumn<String> get sourceReference => $composableBuilder(
+    column: $table.sourceReference,
+    builder: (column) => column,
+  );
 }
 
 class $$AdhkarItemsTableTableManager
@@ -15142,6 +17759,7 @@ class $$AdhkarItemsTableTableManager
                 Value<String?> textEnglish = const Value.absent(),
                 Value<int> repeatCount = const Value.absent(),
                 Value<String> source = const Value.absent(),
+                Value<String> sourceReference = const Value.absent(),
               }) => AdhkarItemsCompanion(
                 createdAt: createdAt,
                 updatedAt: updatedAt,
@@ -15152,6 +17770,7 @@ class $$AdhkarItemsTableTableManager
                 textEnglish: textEnglish,
                 repeatCount: repeatCount,
                 source: source,
+                sourceReference: sourceReference,
               ),
           createCompanionCallback:
               ({
@@ -15164,6 +17783,7 @@ class $$AdhkarItemsTableTableManager
                 Value<String?> textEnglish = const Value.absent(),
                 Value<int> repeatCount = const Value.absent(),
                 required String source,
+                required String sourceReference,
               }) => AdhkarItemsCompanion.insert(
                 createdAt: createdAt,
                 updatedAt: updatedAt,
@@ -15174,6 +17794,7 @@ class $$AdhkarItemsTableTableManager
                 textEnglish: textEnglish,
                 repeatCount: repeatCount,
                 source: source,
+                sourceReference: sourceReference,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
@@ -17060,10 +19681,14 @@ class $AppDatabaseManager {
       $$TafsirCachesTableTableManager(_db, _db.tafsirCaches);
   $$AudioCacheMetadataTableTableManager get audioCacheMetadata =>
       $$AudioCacheMetadataTableTableManager(_db, _db.audioCacheMetadata);
+  $$QuranRecitersCacheTableTableManager get quranRecitersCache =>
+      $$QuranRecitersCacheTableTableManager(_db, _db.quranRecitersCache);
   $$DailyAyahHistoryTableTableManager get dailyAyahHistory =>
       $$DailyAyahHistoryTableTableManager(_db, _db.dailyAyahHistory);
   $$ReadingProgressTableTableManager get readingProgress =>
       $$ReadingProgressTableTableManager(_db, _db.readingProgress);
+  $$ReadingSessionsTableTableManager get readingSessions =>
+      $$ReadingSessionsTableTableManager(_db, _db.readingSessions);
   $$DailyGoalsTableTableManager get dailyGoals =>
       $$DailyGoalsTableTableManager(_db, _db.dailyGoals);
   $$StreakRecordsTableTableManager get streakRecords =>

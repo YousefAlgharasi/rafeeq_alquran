@@ -31,6 +31,23 @@ The technical project name is **rafeeq_alquran**.
 - Firebase Auth and Cloud Firestore for optional login and sync.
 - Firebase Cloud Functions only where needed, especially to keep Quran Foundation credentials server-side.
 
+## Firebase Configuration Status
+
+Updated on: 2026-05-24.
+
+Firebase is configured for this Flutter project.
+
+- Firebase project id: `rafeeq-alquran`.
+- Android application id/package: `com.yousefapps.rafeeq_alquran`.
+- Android config file exists at `android/app/google-services.json`.
+- FlutterFire generated config exists at `lib/firebase_options.dart`.
+- Android uses Kotlin DSL Gradle files and has the Google Services plugin configured.
+- Firebase Core initializes before `runApp` through `lib/core/firebase/firebase_initializer.dart`.
+- Startup remains safe: if Firebase initialization fails in development/preproduction, the app logs the error and still opens the app shell.
+- Firebase Auth email/password support is implemented in the app code. The Email/Password provider must remain enabled in Firebase Console.
+
+This status does not mean every Firebase product is fully implemented. Firestore feature sync adapters, security rules, Cloud Functions deployment, Analytics, Messaging, Crashlytics, Storage, and Remote Config are separate future tasks unless already implemented.
+
 ## Storage Direction
 
 - Guest users are local-only.
@@ -43,4 +60,3 @@ The technical project name is **rafeeq_alquran**.
 AI must never generate Quran text, tafsir, adhkar, or religious rulings.
 
 Quran, tafsir, adhkar, and religious content must come from verified sources approved by the project owner.
-

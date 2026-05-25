@@ -67,6 +67,15 @@ quranProxyRoutes.get("/tafsir-resources", async (
   );
 });
 
+quranProxyRoutes.get("/audio/reciters", async (
+  request: Request,
+  response: Response,
+) => {
+  await handleProxy(response, () =>
+    client().getReciters(queryFrom(request)),
+  );
+});
+
 quranProxyRoutes.get("/audio/recitations/:reciterId", async (
   request: Request,
   response: Response,

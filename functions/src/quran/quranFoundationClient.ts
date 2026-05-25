@@ -53,6 +53,10 @@ export class QuranFoundationClient {
     return this.getJson("/resources/tafsirs", query);
   }
 
+  async getReciters(query: QueryParams = {}): Promise<unknown> {
+    return this.getJson("/resources/recitations", query);
+  }
+
   async getRecitationMetadata(
     reciterId: string,
     query: QueryParams = {},

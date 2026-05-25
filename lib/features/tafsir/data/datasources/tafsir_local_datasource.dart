@@ -11,6 +11,11 @@ abstract class TafsirLocalDatasource {
     required TafsirResource resource,
   });
 
+  Future<TafsirEntry?> getCachedTafsirByLevel({
+    required String verseKey,
+    required TafsirLevel level,
+  });
+
   Future<void> cacheTafsir(TafsirEntry tafsir);
 }
 
@@ -24,12 +29,15 @@ class DriftTafsirLocalDatasource implements TafsirLocalDatasource {
     required String verseKey,
     required TafsirResource resource,
   }) async {
-    final rows = await (_database.select(_database.tafsirCaches)
-          ..where((table) =>
-              table.verseKey.equals(verseKey) &
-              table.tafsirId.equals(resource.id))
-          ..limit(1))
-        .get();
+    final rows =
+        await (_database.select(_database.tafsirCaches)
+              ..where(
+                (table) =>
+                    table.verseKey.equals(verseKey) &
+                    table.tafsirId.equals(resource.id),
+              )
+              ..limit(1))
+            .get();
 
     if (rows.isEmpty) {
       return null;
@@ -48,15 +56,46 @@ class DriftTafsirLocalDatasource implements TafsirLocalDatasource {
   }
 
   @override
+  Future<TafsirEntry?> getCachedTafsirByLevel({
+    required String verseKey,
+    required TafsirLevel level,
+  }) async {
+    final rows =
+        await (_database.select(_database.tafsirCaches)
+              ..where((table) => table.verseKey.equals(verseKey))
+              ..orderBy([(table) => OrderingTerm.desc(table.updatedAt)])
+              ..limit(1))
+            .get();
+
+    if (rows.isEmpty) {
+      return null;
+    }
+
+    final row = rows.single;
+    return TafsirEntry(
+      verseKey: row.verseKey,
+      resourceId: row.tafsirId,
+      resourceName: _resourceName(level),
+      level: level,
+      languageCode: row.languageCode,
+      text: row.tafsirText,
+      source: row.source,
+    );
+  }
+
+  @override
   Future<void> cacheTafsir(TafsirEntry tafsir) async {
     final now = DateTime.now().toUtc();
-    await (_database.delete(_database.tafsirCaches)
-          ..where((table) =>
+    await (_database.delete(_database.tafsirCaches)..where(
+          (table) =>
               table.verseKey.equals(tafsir.verseKey) &
-              table.tafsirId.equals(tafsir.resourceId)))
+              table.tafsirId.equals(tafsir.resourceId),
+        ))
         .go();
 
-    await _database.into(_database.tafsirCaches).insert(
+    await _database
+        .into(_database.tafsirCaches)
+        .insert(
           TafsirCachesCompanion.insert(
             verseKey: tafsir.verseKey,
             tafsirId: tafsir.resourceId,
@@ -67,6 +106,14 @@ class DriftTafsirLocalDatasource implements TafsirLocalDatasource {
             updatedAt: now,
           ),
         );
+  }
+
+  String _resourceName(TafsirLevel level) {
+    return switch (level) {
+      TafsirLevel.shortMeaning => 'Short meaning',
+      TafsirLevel.alMuyassar => 'Al-Muyassar',
+      TafsirLevel.full => 'Full tafsir',
+    };
   }
 }
 

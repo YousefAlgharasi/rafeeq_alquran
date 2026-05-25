@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/config/islamic_app_quran_config.dart';
 import '../../../../core/config/quran_proxy_config.dart';
 import '../../../../core/database/database_provider.dart';
 import '../../../../core/network/dio_provider.dart';
+import '../../data/datasources/islamic_app_quran_remote_datasource.dart';
 import '../../data/datasources/quran_content_datasource.dart';
 import '../../data/datasources/quran_local_datasource.dart';
 import '../../data/datasources/quran_proxy_remote_datasource.dart';
@@ -16,17 +18,32 @@ final quranProxyConfigProvider = Provider<QuranProxyConfig>((ref) {
   return const QuranProxyConfig(baseUrl: QuranProxyConfig.defaultBaseUrl);
 });
 
+final islamicAppQuranConfigProvider = Provider<IslamicAppQuranConfig>((ref) {
+  return const IslamicAppQuranConfig();
+});
+
 final quranLocalDatasourceProvider = Provider<QuranLocalDatasource>((ref) {
   return QuranLocalDatasource(ref.watch(appDatabaseProvider));
 });
 
 final quranContentRemoteDatasourceProvider =
     Provider<QuranContentRemoteDatasource>((ref) {
-  return QuranProxyRemoteDatasource(
-    dio: ref.watch(dioProvider),
-    config: ref.watch(quranProxyConfigProvider),
-  );
-});
+      final audioDatasource = QuranProxyRemoteDatasource(
+        dio: ref.watch(dioProvider),
+        config: ref.watch(quranProxyConfigProvider),
+      );
+      return IslamicAppQuranRemoteDatasource(
+        dio: ref.watch(dioProvider),
+        config: ref.watch(islamicAppQuranConfigProvider),
+        audioDatasource: audioDatasource,
+      );
+
+      // Rollback to Quran.Foundation/Quran.com proxy for all Quran content:
+      // return QuranProxyRemoteDatasource(
+      //   dio: ref.watch(dioProvider),
+      //   config: ref.watch(quranProxyConfigProvider),
+      // );
+    });
 
 final quranContentRepositoryProvider = Provider<QuranContentRepository>((ref) {
   return QuranContentRepositoryImpl(
@@ -39,12 +56,13 @@ final quranChaptersProvider = FutureProvider<List<QuranChapter>>((ref) {
   return ref.watch(quranContentRepositoryProvider).getChapters();
 });
 
-final quranChapterVersesProvider =
-    FutureProvider.family<List<QuranVerse>, int>((ref, chapterNumber) {
-  return ref
-      .watch(quranContentRepositoryProvider)
-      .getVersesByChapter(chapterNumber);
-});
+final quranChapterVersesProvider = FutureProvider.family<List<QuranVerse>, int>(
+  (ref, chapterNumber) {
+    return ref
+        .watch(quranContentRepositoryProvider)
+        .getVersesByChapter(chapterNumber);
+  },
+);
 
 final lastReadPositionProvider = FutureProvider<ReadingPosition?>((ref) {
   return ref.watch(quranContentRepositoryProvider).getLastReadPosition();

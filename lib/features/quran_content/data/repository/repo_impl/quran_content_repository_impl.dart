@@ -3,6 +3,7 @@ import '../../../logic/entity/quran_chapter.dart';
 import '../../../logic/entity/quran_tafsir.dart';
 import '../../../logic/entity/quran_verse.dart';
 import '../../../logic/entity/reading_position.dart';
+import '../../../logic/entity/reciter.dart';
 import '../../../logic/repository/quran_content_repository.dart';
 import '../../datasources/quran_content_datasource.dart';
 import '../../datasources/quran_local_datasource.dart';
@@ -11,8 +12,8 @@ class QuranContentRepositoryImpl implements QuranContentRepository {
   const QuranContentRepositoryImpl({
     required QuranContentRemoteDatasource remoteDatasource,
     required QuranContentLocalDatasource localDatasource,
-  })  : _remoteDatasource = remoteDatasource,
-        _localDatasource = localDatasource;
+  }) : _remoteDatasource = remoteDatasource,
+       _localDatasource = localDatasource;
 
   final QuranContentRemoteDatasource _remoteDatasource;
   final QuranContentLocalDatasource _localDatasource;
@@ -20,7 +21,7 @@ class QuranContentRepositoryImpl implements QuranContentRepository {
   @override
   Future<List<QuranChapter>> getChapters({bool forceRefresh = false}) async {
     final cached = await _localDatasource.getCachedChapters();
-    if (cached.isNotEmpty && !forceRefresh) {
+    if (_hasCompleteChapterCache(cached) && !forceRefresh) {
       return cached;
     }
 
@@ -48,7 +49,16 @@ class QuranContentRepositoryImpl implements QuranContentRepository {
     final cached = await _localDatasource.getCachedVersesByChapter(
       chapterNumber,
     );
-    if (cached.isNotEmpty && !forceRefresh) {
+    final cachedChapters = await _localDatasource.getCachedChapters();
+    final expectedVerseCount = _expectedVerseCount(
+      chapters: cachedChapters,
+      chapterNumber: chapterNumber,
+    );
+    if (_hasCompleteVerseCache(
+          cached,
+          expectedVerseCount: expectedVerseCount,
+        ) &&
+        !forceRefresh) {
       return cached;
     }
 
@@ -90,14 +100,59 @@ class QuranContentRepositoryImpl implements QuranContentRepository {
   }
 
   @override
+  Future<List<Reciter>> getReciters({bool forceRefresh = false}) async {
+    final cached = await _localDatasource.getCachedReciters();
+    if (cached.isNotEmpty && !forceRefresh) {
+      return cached;
+    }
+
+    try {
+      final remote = await _remoteDatasource.getReciters();
+      if (remote.isNotEmpty) {
+        await _localDatasource.cacheReciters(remote);
+        return remote;
+      }
+    } catch (_) {
+      if (cached.isNotEmpty) {
+        return cached;
+      }
+      rethrow;
+    }
+
+    return cached;
+  }
+
+  @override
   Future<List<QuranAudioMetadata>> getRecitationMetadata({
     required String reciterId,
     String? verseKey,
-  }) {
-    return _remoteDatasource.getRecitationMetadata(
+    bool forceRefresh = false,
+  }) async {
+    final cached = await _localDatasource.getCachedRecitationMetadata(
       reciterId: reciterId,
       verseKey: verseKey,
     );
+    if (cached.isNotEmpty && !forceRefresh) {
+      return cached;
+    }
+
+    try {
+      final remote = await _remoteDatasource.getRecitationMetadata(
+        reciterId: reciterId,
+        verseKey: verseKey,
+      );
+      if (remote.isNotEmpty) {
+        await _localDatasource.cacheRecitationMetadata(remote);
+        return remote;
+      }
+    } catch (_) {
+      if (cached.isNotEmpty) {
+        return cached;
+      }
+      rethrow;
+    }
+
+    return cached;
   }
 
   @override
@@ -108,5 +163,34 @@ class QuranContentRepositoryImpl implements QuranContentRepository {
   @override
   Future<ReadingPosition?> getLastReadPosition() {
     return _localDatasource.getLastReadPosition();
+  }
+
+  bool _hasCompleteChapterCache(List<QuranChapter> chapters) {
+    return chapters.length >= 114;
+  }
+
+  int? _expectedVerseCount({
+    required List<QuranChapter> chapters,
+    required int chapterNumber,
+  }) {
+    for (final chapter in chapters) {
+      if (chapter.chapterNumber == chapterNumber && chapter.versesCount > 0) {
+        return chapter.versesCount;
+      }
+    }
+    return null;
+  }
+
+  bool _hasCompleteVerseCache(
+    List<QuranVerse> verses, {
+    required int? expectedVerseCount,
+  }) {
+    if (verses.isEmpty) {
+      return false;
+    }
+    if (expectedVerseCount == null || expectedVerseCount <= 0) {
+      return false;
+    }
+    return verses.length >= expectedVerseCount;
   }
 }
