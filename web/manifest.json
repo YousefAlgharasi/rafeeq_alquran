@@ -1,11 +1,11 @@
 {
-    "name": "rafeeq_alquran",
-    "short_name": "rafeeq_alquran",
+    "name": "رفيق القرآن",
+    "short_name": "رفيق القرآن",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#064B3F",
+    "theme_color": "#064B3F",
+    "description": "رفيقك اليومي للقرآن والأذكار ومواقيت الصلاة.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
